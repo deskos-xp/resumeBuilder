@@ -231,6 +231,24 @@ class importer:
             self.groupBox_ref=None
             self.contact_clear(self.groupBox_contact['0'][1])
 
+    def getReferences(self,referencesEmp):
+        for num,ref in enumerate(referencesEmp.keys()):
+            self.newRef()
+            b=self.groupBox_ref[str(num)][1]
+            b.employer.setText(referencesEmp[ref]['employer'])
+            b.title.setText(referencesEmp[ref]['title'])
+            b.fname.setText(referencesEmp[ref]['fname'])
+            b.lname.setText(referencesEmp[ref]['lname'])
+            b.mname.setText(referencesEmp[ref]['mname'])
+            b.phone.setText(referencesEmp[ref]['phone'])
+            b.email.setText(referencesEmp[ref]['email'])
+            b.street.setText(referencesEmp[ref]['street'])
+            b.city.setText(referencesEmp[ref]['city'])
+            b.state.setCurrentText(referencesEmp[ref]['state'])
+            b.zip.setText(referencesEmp[ref]['zip'])
+            b.phoneType.setCurrentText(referencesEmp[ref]['type'])
+
+
     def getRefData(self):
         x=import_xml.get_xml()
         x.references=self.import_getFname(ext='xml',docType='References')
@@ -243,22 +261,7 @@ class importer:
             print(referencesEmp)
                     
             self.setContactTabFields(referencesContact)
-    
-            for num,ref in enumerate(referencesEmp.keys()):
-                self.newRef()
-                b=self.groupBox_ref[str(num)][1]
-                b.employer.setText(referencesEmp[ref]['employer'])
-                b.title.setText(referencesEmp[ref]['title'])
-                b.fname.setText(referencesEmp[ref]['fname'])
-                b.lname.setText(referencesEmp[ref]['lname'])
-                b.mname.setText(referencesEmp[ref]['mname'])
-                b.phone.setText(referencesEmp[ref]['phone'])
-                b.email.setText(referencesEmp[ref]['email'])
-                b.street.setText(referencesEmp[ref]['street'])
-                b.city.setText(referencesEmp[ref]['city'])
-                b.state.setCurrentText(referencesEmp[ref]['state'])
-                b.zip.setText(referencesEmp[ref]['zip'])
-                b.phoneType.setCurrentText(referencesEmp[ref]['type'])
+            self.getReferences(referencesEmp)
             self.ref_submit()
             self.gen_compile_data()
         else:

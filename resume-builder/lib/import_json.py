@@ -38,6 +38,11 @@ class get_json:
             self.setContactTabFields(doc['contact'])
             self.json_getEmployer(doc)
             self.json_getSchool(doc)
+            self.json_getCert(doc)
+            self.json_getSkill(doc)
+            self.json_getLink(doc)
+            self.json_getAi(doc)
+            self.json_getRef(doc)
 
     def json_getEmployer(self,doc):
         x=import_xml.get_xml()
@@ -65,9 +70,38 @@ class get_json:
                 print(d['schools'][i].pop(si))
         self.resumeGetSchool(d)
 
-            
-        print(doc.keys())
+    def json_getCert(self,doc):
+        x=import_xml.get_xml()
+        d={'certs':doc['certifications']}
+        for i in d['certs'].keys():
+            date=x.breakDate(d['certs'][i]['date'])
+            d['certs'][i]['startDate']=date[0]
+            d['certs'][i]['endDate']=date[1]
+            for si in ['date']:
+                d['certs'][i].pop(si)
+        self.resumeGetCert(d)
+
+    def json_getSkill(self,doc):
+        x=import_xml.get_xml()
+        d={'skills':doc['skills']}
+        for i in d['skills'].keys():
+            skillString='{} ({})'.format(d['skills'][i]['name'],d['skills'][i]['date'])
+            skill=x.breakSkill(skillString)
+            d['skills'][i]['grade']=skill[3]
+            d['skills'][i]['months']=skill[1]
+            d['skills'][i]['years']=skill[2]
+            d['skills'][i]['skill']=skill[0]
+            d['skills'][i].pop('name')
+        self.resumeGetSkill(d)
+
+    def json_getLink(self,doc):
+        self.resumeGetLink(doc)
+
+    def json_getAi(self,doc):
+        self.resumeGetAi(doc)
             #from here on, import of each tab's data will be constricted to a per function basis, as in importer_lib
+    def json_getRef(self,doc):
+        pass
 
     def json_buttons_connect(self):
         self.actionImport_json.triggered.connect(self.json_getFields)
