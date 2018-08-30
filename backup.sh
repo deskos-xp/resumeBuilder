@@ -5,7 +5,7 @@ git commit -am "updates"
 
 d=`date +%H.%M.%S_%m-%d-%y`
 mkdir -p .backups/backup-$d
-cp -rv ./resume-builder .backups/backup-$d
+cp -rv ./Previews ./resume-builder .backups/backup-$d
 extras=('backup.sh'  'LICENSE'  'README.md')
 for doc in ${extras[@]} ; do
 	if test -e $doc && test -f $doc ; then

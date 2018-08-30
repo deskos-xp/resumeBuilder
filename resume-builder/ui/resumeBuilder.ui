@@ -774,7 +774,7 @@
   </action>
   <action name="actionImport_json">
    <property name="text">
-    <string>Import Resume and References Json</string>
+    <string>Import &amp;Json</string>
    </property>
   </action>
  </widget>

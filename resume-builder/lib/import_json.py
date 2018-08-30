@@ -101,7 +101,7 @@ class get_json:
         self.resumeGetAi(doc)
             #from here on, import of each tab's data will be constricted to a per function basis, as in importer_lib
     def json_getRef(self,doc):
-        pass
+        self.getReferences(doc['references'])
 
     def json_buttons_connect(self):
         self.actionImport_json.triggered.connect(self.json_getFields)

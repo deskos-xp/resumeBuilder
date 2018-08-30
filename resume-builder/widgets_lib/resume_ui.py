@@ -473,5 +473,5 @@ class Ui_MainWindow(object):
         self.actionNext.setShortcut(_translate("MainWindow", "Alt+N"))
         self.actionImport_References.setText(_translate("MainWindow", "Import Ref&erences XML"))
         self.actionImport_Resume.setText(_translate("MainWindow", "Import &Resume XML"))
-        self.actionImport_json.setText(_translate("MainWindow", "Import Resume and References Json"))
+        self.actionImport_json.setText(_translate("MainWindow", "Import &Json"))
 
