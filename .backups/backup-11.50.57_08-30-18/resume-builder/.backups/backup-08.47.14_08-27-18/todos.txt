@@ -1,0 +1,25 @@
+#phone number error messages/widgets
+#color code fields that change background color when properly filled
+
+#create a a way to tag invalid fields on each tab, if field is invalid, prevent user from clicking submit and from clicking next
+pitch:
+#	iterate through groupboxes
+#	if entry widgets are in a default,blank state, or invalid email/phone number then lockout submit/next
+
+#the below will be in lib/checkers_lib.py
+
+#create a function that checks that validity of email addresses
+	
+#if invalid, lockout submit/next until correction is made, or invalid item is removed
+
+#modify tab orders
+#add a keyboard shortcut to next callback and previous callback
+
+create import functionality
+	xml import
+		get resume.xml
+		get references.xml
+
+	read documents, add widgets according to retrieved data, fill widgets with retrieved data
+
+add comboBox for phone type and name suffix

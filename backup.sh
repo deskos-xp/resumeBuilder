@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+git add .
+git commit -am "updates"
+
 d=`date +%H.%M.%S_%m-%d-%y`
 mkdir -p .backups/backup-$d
 cp -rv ./resume-builder .backups/backup-$d
@@ -14,6 +17,7 @@ tree .backups/backup-$d
 cd ..
 
 if test "$1" != '' ; then
+	ssh carl@"$1" "rm -r /home/carl/resumeBuilder"
 	scp -r resumeBuilder carl@"$1":/home/carl/
 fi
 
