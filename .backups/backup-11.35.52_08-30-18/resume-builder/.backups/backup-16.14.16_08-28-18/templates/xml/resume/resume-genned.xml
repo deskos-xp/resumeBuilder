@@ -1,0 +1,56 @@
+<resume>
+  <contact>
+    <name>Carl J Hirner III</name>
+    <street>1156 Wanda Ave.</street>
+    <locale>Seaside, CA 93955</locale>
+    <email>k.j.hirner.wisdom@gmail.com</email>
+    <phone>8048544057</phone>
+  </contact>
+  <work_xp tag="Work Experience">
+    <employer name="Safeway" num="0">
+      <title num="0">Night Stocker</title>
+      <employer_region>Safeway - Moneterey, CA 93955</employer_region>
+      <start2end>July 01, 2018 to Present</start2end>
+      <duties>Stock Product from Warehouse
+Face Aisles
+Rotate Dairy
+Stock water/ice
+Assist customers</duties>
+    </employer>
+    <employer name="WalMart" num="1">
+      <title num="1">CAP2 Stocker</title>
+      <employer_region>WalMart - Marina, CA 93933</employer_region>
+      <start2end>February 01, 2018 to June 26, 2018</start2end>
+      <duties>Stock Shelves
+Prevent Accidents
+Unload Trucks
+Maintain Modular Integrity</duties>
+    </employer>
+  </work_xp>
+  <education>
+    <school num="0" type="785d2fb62503b8c079d8147b8700a17b89bdb28884705c8eb49670161aa894b57c14c86dbcee4455e5ff1116c1dcf5914d972005309a85d3bb5f063d5c162330">
+      <school_region>King William High School - King William, VA 23181</school_region>
+      <degree>High School Diploma</degree>
+      <start2end>September 9, 2009 to June 26, 2013</start2end>
+    </school>
+  </education>
+  <certs tag="Certifications/Licenses">
+    <cert num="0">
+      <name>ServSafe</name>
+      <start2end>November 1, 2018 to November 1, 2021</start2end>
+    </cert>
+  </certs>
+  <skills tag="Skills">
+    <skill num="0">Stocking (+6 Months)</skill>
+    <skill num="1">Warehouse (+6 Months)</skill>
+  </skills>
+  <links tag="Links">
+    <link num="0">https://github.com/deskos-xp</link>
+  </links>
+  <additional_info tag="Additional_Information">
+Linux
+Windows Server and Windows Desktop
+Python/Bash/PHP/HTML/XML/C++/C/Perl
+Remote System Management (SSH,TeamView, VNC, etc)</additional_info>
+</resume>
+
