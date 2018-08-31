@@ -232,7 +232,6 @@ Wyoming'''.split('\n')
                         else:
                             if status not in ['Set Your State','Basic School Types','Phone Type']:
                                 counted+=1
-                                print(status,counted,len(a))
                             else:
                                 if type(getattr(w,a[num-1])) == QtWidgets.QLineEdit:
                                     content=getattr(w,a[num-1]).text()
@@ -240,8 +239,9 @@ Wyoming'''.split('\n')
                                     subColorT=(subc.red(),subc.green(),subc.blue())
                                     if subColorT == (255,255,255) and len(content) < 1:
                                         counted+=1
-
+                
                 tname=self.tabWidget.tabText(self.tabWidget.currentIndex())
+                print(counted,len(a),tname,getattr(w,x))
                 if counted == len(a):
                     if tname == 'Employment':
                         self.pushButton_4.setEnabled(True)

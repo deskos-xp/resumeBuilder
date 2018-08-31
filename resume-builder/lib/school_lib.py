@@ -119,6 +119,7 @@ class school:
     
     def school_dateString(self,widget):
         widget.dateString.setReadOnly(True)
+        widget.dateString.textChanged.connect(lambda:self.school_date_present(widget))
 
     def newSchoolObj(self,school_counter):
         widget=school_widget.Ui_school()

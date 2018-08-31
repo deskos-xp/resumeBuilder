@@ -106,6 +106,7 @@ class emp:
 
     def emp_dateString(self,widget):
         widget.dateString.setReadOnly(True)
+        widget.dateString.textChanged.connect(lambda:self.emp_date_present(widget))
 
     def newEmployerObj(self,emp_counter):
         widget=employer_widget.Ui_employerWidget()
