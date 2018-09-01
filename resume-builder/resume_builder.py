@@ -215,7 +215,7 @@ Wyoming'''.split('\n')
         self.counted[i][Num]={}
         self.counted[i][Num]['0']=0
         self.counted[i][Num]['1']=len(a)
-        print(self.counted)
+        #print(self.counted)
         for num,x in enumerate(a):
             item=type(getattr(w,x))
             if item in [QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox]:
@@ -247,94 +247,67 @@ Wyoming'''.split('\n')
                                     if subColorT == (255,255,255) and len(content) < 1:
                                         self.counted[i][Num]['0']+=1
                 #print(self.counted[i][Num]['0'],i,self.counted[i][Num]['1'],tname,getattr(w,x).objectName())
-                self.locker(tname,i,Num)
-                print(self.counted)
-    def locker(self,tname,i,Num):
+                self.locker(i,Num)
+                #print(self.counted)
+    def locker(self,i,Num):
+        states={
+                'Contact':0,
+                'Employment':0,
+                'Education':0,
+                'Certifications':0,
+                'Skills':0,
+                'Links':0,
+                'Additional Information':0,
+                'References':0,
+                }
         for key in self.counted.keys():
             tname=key
             for num in self.counted[key].keys():
                 if tname in ['Contact','References']:
                     if self.counted[key][num]['0'] >= self.counted[key][num]['1']+1:
-                        if tname == 'References':
-                            self.pushButton_27.setEnabled(True)
-                        elif tname == 'Contact':
-                            self.pushButton.setEnabled(True)
-                        self.actionNext.setEnabled(True)
-                    else:
-                        if tname == 'References':
-                            self.pushButton_27.setEnabled(False)
-                            #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
-                        elif tname == 'Contact':
-                            self.pushButton.setEnabled(False)
-                        self.actionNext.setEnabled(False)
-                elif self.counted[key][num]['0'] >= self.counted[key][num]['1']:
-                    if tname == 'Employment':
-                        self.pushButton_4.setEnabled(True)
-                    elif tname == 'Education':
-                        self.pushButton_11.setEnabled(True)
-                    elif tname == 'Certifications':
-                        self.pushButton_15.setEnabled(True)
-                    elif tname == 'Skills':
-                        self.pushButton_19.setEnabled(True)
-                    elif tname == 'Links':
-                        self.pushButton_32.setEnabled(True)
-                    elif tname == 'Additional Information':
-                        self.pushButton_23.setEnabled(True)
-                    self.actionNext.setEnabled(True)
+                        states[tname]+=1
                 else:
-                    if tname == 'Employment':
-                        self.pushButton_4.setEnabled(False)
-                    elif tname == 'Education':
-                        self.pushButton_11.setEnabled(False)
-                    elif tname == 'Certifications':
-                        self.pushButton_15.setEnabled(False)
-                    elif tname == 'Skills':
-                        self.pushButton_19.setEnabled(False)
-                    elif tname == 'Links':
-                        self.pushButton_32.setEnabled(False)
-                    elif tname == 'Additional Information':
-                        self.pushButton_23.setEnabled(False)
-                    self.actionNext.setEnabled(False)
+                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']:
+                        states[tname]+=1
 
-        '''            
-        if self.counted[i][Num]['0'] >= self.counted[i][Num]['1']:
-            if tname == 'Employment':
-                self.pushButton_4.setEnabled(True)
-            elif tname == 'Education':
-                self.pushButton_11.setEnabled(True)
-            elif tname == 'Certifications':
-                self.pushButton_15.setEnabled(True)
-            elif tname == 'Skills':
-                self.pushButton_19.setEnabled(True)
-            elif tname == 'Links':
-                self.pushButton_32.setEnabled(True)
-            elif tname == 'Additional Information':
-                self.pushButton_23.setEnabled(True)
-            elif tname == 'References':
-                self.pushButton_27.setEnabled(True)
-            elif tname == 'Contact':
-                self.pushButton.setEnabled(True)
-            self.actionNext.setEnabled(True)
-        else:
-            if tname == 'Employment':
-                self.pushButton_4.setEnabled(False)
-            elif tname == 'Education':
-                self.pushButton_11.setEnabled(False)
-            elif tname == 'Certifications':
-                self.pushButton_15.setEnabled(False)
-            elif tname == 'Skills':
-                self.pushButton_19.setEnabled(False)
-            elif tname == 'Links':
-                self.pushButton_32.setEnabled(False)
-            elif tname == 'Additional Information':
-                self.pushButton_23.setEnabled(False)
-            elif tname == 'References':
-                self.pushButton_27.setEnabled(False)
-                #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
-            elif tname == 'Contact':
-                self.pushButton.setEnabled(False)
-            self.actionNext.setEnabled(False)
-        '''
+            if states[tname] >= len(self.counted[key].keys()):
+                if tname == 'Employment':
+                    self.pushButton_4.setEnabled(True)
+                elif tname == 'Education':
+                    self.pushButton_11.setEnabled(True)
+                elif tname == 'Certifications':
+                    self.pushButton_15.setEnabled(True)
+                elif tname == 'Skills':
+                    self.pushButton_19.setEnabled(True)
+                elif tname == 'Links':
+                    self.pushButton_32.setEnabled(True)
+                elif tname == 'Additional Information':
+                    self.pushButton_23.setEnabled(True)
+                elif tname == 'References':
+                    self.pushButton_27.setEnabled(True)
+                elif tname == 'Contact':
+                    self.pushButton.setEnabled(True)
+                self.actionNext.setEnabled(True)
+            else:
+                if tname == 'Employment':
+                    self.pushButton_4.setEnabled(False)
+                elif tname == 'Education':
+                    self.pushButton_11.setEnabled(False)
+                elif tname == 'Certifications':
+                    self.pushButton_15.setEnabled(False)
+                elif tname == 'Skills':
+                    self.pushButton_19.setEnabled(False)
+                elif tname == 'Links':
+                    self.pushButton_32.setEnabled(False)
+                elif tname == 'Additional Information':
+                    self.pushButton_23.setEnabled(False)
+                elif tname == 'References':
+                    self.pushButton_27.setEnabled(False)
+                    #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
+                elif tname == 'Contact':
+                    self.pushButton.setEnabled(False)
+                self.actionNext.setEnabled(False)
+        
     def validateFields(self):
         currentTab=self.tabWidget.currentIndex()
         boxes=[

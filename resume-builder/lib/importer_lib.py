@@ -7,6 +7,7 @@ class importer:
         pass
 
     def setContactTabFields(self,obj):
+        self.bar('Contact')
         c=self.groupBox_contact['0'][1]
         c.fname.setText(obj['fname'])
         c.lname.setText(obj['lname'])
@@ -82,8 +83,11 @@ class importer:
         self.resumeClearWidgets_skill()
         self.resumeClearWidgets_ai()
         self.resumeClearWidgets_link()
+    def bar(self,msg):
+        self.statusBar().showMessage('Importing {} Data!'.format(msg))
 
     def resumeGetEmployer(self,fields):
+        self.bar('Employment')
         emp=fields['work_xp']
         for num,work in enumerate(emp.keys()):
             self.newEmployer()
@@ -120,6 +124,7 @@ class importer:
         obj.setDate(startDate)
 
     def resumeGetSchool(self,fields):
+        self.bar('Education')
         schools=fields['schools']
         for num,school in enumerate(schools.keys()):
             self.newSchool()
@@ -138,6 +143,7 @@ class importer:
         self.school_submit()
 
     def resumeGetCert(self,fields):
+        self.bar('Certification')
         certs=fields['certs']
         for num,cert in enumerate(certs.keys()):
             self.newCert()
@@ -148,6 +154,7 @@ class importer:
         self.cert_submit()
 
     def resumeGetSkill(self,fields):
+        self.bar('Skill')
         skills=fields['skills']
         for num,skill in enumerate(skills.keys()):
             print('#{}# "{}" m "{}" y'.format(skills[skill]['skill'],skills[skill]['months'],skills[skill]['years']))
@@ -185,6 +192,7 @@ class importer:
         self.skill_submit()
 
     def resumeGetLink(self,fields):
+        self.bar('Link')
         links=fields['links']
         for num,link in enumerate(links.keys()):
             self.newLink()
@@ -193,6 +201,7 @@ class importer:
         self.link_submit()
 
     def resumeGetAi(self,fields):
+        self.bar('Additional Information')
         lines=fields['additional_info']
         keys=[i for i in lines.keys() if lines[i] != {'line':''}]
         for num,line in enumerate(keys):
@@ -232,6 +241,7 @@ class importer:
             self.contact_clear(self.groupBox_contact['0'][1])
 
     def getReferences(self,referencesEmp):
+        self.bar('References')
         for num,ref in enumerate(referencesEmp.keys()):
             self.newRef()
             b=self.groupBox_ref[str(num)][1]
