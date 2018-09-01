@@ -98,7 +98,7 @@ Wyoming'''.split('\n')
         self.groupBox_ai=None
         self.groupBox_link=None
         self.groupBox_ref=None
-
+        self.counted={}
         self.dFormat='MMMM d, yyyy'
 
         self.setupUi(self)
@@ -169,7 +169,7 @@ Wyoming'''.split('\n')
                         self.entity(button)
             else:
                 self.actionNext.setEnabled(False)
-            
+        #self.validateFields() 
 
     def next_action_tab(self):
         self.tabWidget.currentChanged.connect(self.adjust_next)
@@ -206,10 +206,16 @@ Wyoming'''.split('\n')
         widget.setPalette(p)
         self.validateFields()     
 
-    def validateFields_internal(self,w):
+    def validateFields_internal(self,w,i,Num):
+        tname=self.tabWidget.tabText(self.tabWidget.currentIndex())
         #need to get children of w
         a=[attr for attr in dir(w) if not callable(getattr(w,attr)) and not attr.startswith("__") and type(getattr(w,attr)) in (QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox)]
-        counted=0
+        if i not in self.counted.keys():
+            self.counted[i]={}
+        self.counted[i][Num]={}
+        self.counted[i][Num]['0']=0
+        self.counted[i][Num]['1']=len(a)
+        print(self.counted)
         for num,x in enumerate(a):
             item=type(getattr(w,x))
             if item in [QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox]:
@@ -221,28 +227,47 @@ Wyoming'''.split('\n')
                     blue=color.blue()            
                     colorT=(red,green,blue)
                     if x in ['mname']:
-                        counted+=1
+                        self.counted[i][Num]['0']+=1
                     if colorT == (255,255,255):
-                        counted+=1
+                        self.counted[i][Num]['0']+=1
                 else:
+                    #self.counted[i][Num]['1']+=1
                     if item in [QtWidgets.QComboBox]:
                         status=getattr(w,x).currentText()
                         if x == 'school_type':
-                            counted+=1
+                            self.counted[i][Num]['0']+=1
                         else:
                             if status not in ['Set Your State','Basic School Types','Phone Type']:
-                                counted+=1
-                            else:
-                                if type(getattr(w,a[num-1])) == QtWidgets.QLineEdit:
+                                self.counted[i][Num]['0']+=1
+                            else: 
+                                if type(getattr(w,a[num-1])) == QtWidgets.QLineEdit:    
                                     content=getattr(w,a[num-1]).text()
                                     subc=getattr(w,a[num-1]).palette().color(QtGui.QPalette.Base)
                                     subColorT=(subc.red(),subc.green(),subc.blue())
                                     if subColorT == (255,255,255) and len(content) < 1:
-                                        counted+=1
-                
-                tname=self.tabWidget.tabText(self.tabWidget.currentIndex())
-                print(counted,len(a),tname,getattr(w,x))
-                if counted == len(a):
+                                        self.counted[i][Num]['0']+=1
+                #print(self.counted[i][Num]['0'],i,self.counted[i][Num]['1'],tname,getattr(w,x).objectName())
+                self.locker(tname,i,Num)
+                print(self.counted)
+    def locker(self,tname,i,Num):
+        for key in self.counted.keys():
+            tname=key
+            for num in self.counted[key].keys():
+                if tname in ['Contact','References']:
+                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']+1:
+                        if tname == 'References':
+                            self.pushButton_27.setEnabled(True)
+                        elif tname == 'Contact':
+                            self.pushButton.setEnabled(True)
+                        self.actionNext.setEnabled(True)
+                    else:
+                        if tname == 'References':
+                            self.pushButton_27.setEnabled(False)
+                            #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
+                        elif tname == 'Contact':
+                            self.pushButton.setEnabled(False)
+                        self.actionNext.setEnabled(False)
+                elif self.counted[key][num]['0'] >= self.counted[key][num]['1']:
                     if tname == 'Employment':
                         self.pushButton_4.setEnabled(True)
                     elif tname == 'Education':
@@ -255,10 +280,6 @@ Wyoming'''.split('\n')
                         self.pushButton_32.setEnabled(True)
                     elif tname == 'Additional Information':
                         self.pushButton_23.setEnabled(True)
-                    elif tname == 'References':
-                        self.pushButton_27.setEnabled(True)
-                    elif tname == 'Contact':
-                        self.pushButton.setEnabled(True)
                     self.actionNext.setEnabled(True)
                 else:
                     if tname == 'Employment':
@@ -273,33 +294,67 @@ Wyoming'''.split('\n')
                         self.pushButton_32.setEnabled(False)
                     elif tname == 'Additional Information':
                         self.pushButton_23.setEnabled(False)
-                    elif tname == 'References':
-                        self.pushButton_27.setEnabled(False)
-                        #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
-                    elif tname == 'Contact':
-                        self.pushButton.setEnabled(False)
                     self.actionNext.setEnabled(False)
 
+        '''            
+        if self.counted[i][Num]['0'] >= self.counted[i][Num]['1']:
+            if tname == 'Employment':
+                self.pushButton_4.setEnabled(True)
+            elif tname == 'Education':
+                self.pushButton_11.setEnabled(True)
+            elif tname == 'Certifications':
+                self.pushButton_15.setEnabled(True)
+            elif tname == 'Skills':
+                self.pushButton_19.setEnabled(True)
+            elif tname == 'Links':
+                self.pushButton_32.setEnabled(True)
+            elif tname == 'Additional Information':
+                self.pushButton_23.setEnabled(True)
+            elif tname == 'References':
+                self.pushButton_27.setEnabled(True)
+            elif tname == 'Contact':
+                self.pushButton.setEnabled(True)
+            self.actionNext.setEnabled(True)
+        else:
+            if tname == 'Employment':
+                self.pushButton_4.setEnabled(False)
+            elif tname == 'Education':
+                self.pushButton_11.setEnabled(False)
+            elif tname == 'Certifications':
+                self.pushButton_15.setEnabled(False)
+            elif tname == 'Skills':
+                self.pushButton_19.setEnabled(False)
+            elif tname == 'Links':
+                self.pushButton_32.setEnabled(False)
+            elif tname == 'Additional Information':
+                self.pushButton_23.setEnabled(False)
+            elif tname == 'References':
+                self.pushButton_27.setEnabled(False)
+                #print(QtCore.QObject.findChildren(w,QtWidgets.QLineEdit))
+            elif tname == 'Contact':
+                self.pushButton.setEnabled(False)
+            self.actionNext.setEnabled(False)
+        '''
     def validateFields(self):
         currentTab=self.tabWidget.currentIndex()
         boxes=[
-            self.groupBox_contact,
-            self.groupBox_emp,
-            self.groupBox_school,
-            self.groupBox_cert,
-            self.groupBox_skill,
-            self.groupBox_ai,
-            self.groupBox_link,
-            self.groupBox_ref,
+            [self.groupBox_contact,'Contact'],
+            [self.groupBox_emp,'Employment'],
+            [self.groupBox_school,'Education'],
+            [self.groupBox_cert,'Certifications'],
+            [self.groupBox_skill,'Skills'],
+            [self.groupBox_ai,'Additional Information'],
+            [self.groupBox_link,'Links'],
+            [self.groupBox_ref,'References'],
         ]
         for i in boxes:
-            if i != None:
-                if type(i) == type(dict()):
-                    for key in i.keys():
-                        w=i[key][1]
-                        self.validateFields_internal(w)
+            if i[0] != None:
+                if type(i[0]) == type(dict()):
+                    for num,key in enumerate(i[0].keys()):
+                        w=i[0][key][1]
+                        self.validateFields_internal(w,i[1],str(num))
                 else:
-                    self.validateFields_internal(i)
+                    self.validateFields_internal(i[0],i[1])
 
     def phoneStripper(self,number):
         phone=''.join([i for i in number if i in string.digits])
