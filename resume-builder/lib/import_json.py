@@ -33,8 +33,11 @@ class get_json:
                     status=('does not exist',self.allJson)
                 print(status)
                 return status
+            print('document',doc)
             self.resumeClearWidgets()
             self.referencesClearWidgets()
+            if 'type' not in doc['contact'].keys():
+                doc['contact']['type']='Phone Type'
             self.setContactTabFields(doc['contact'])
             self.json_getEmployer(doc)
             self.json_getSchool(doc)
@@ -47,7 +50,7 @@ class get_json:
     def json_getEmployer(self,doc):
         x=import_xml.get_xml()
         d={'work_xp':doc['employment']}
-        print(d['work_xp'].keys())
+        #print(d['work_xp'].keys())
         for i in d['work_xp'].keys():
             d['work_xp'][i]['employer']=d['work_xp'][i]['name']
             d['work_xp'][i].pop('name')
@@ -101,7 +104,11 @@ class get_json:
         self.resumeGetAi(doc)
             #from here on, import of each tab's data will be constricted to a per function basis, as in importer_lib
     def json_getRef(self,doc):
-        self.getReferences(doc['references'])
+        if doc['references'] != None:
+            self.getReferences(doc['references'])
+            self.gen_compile_data()
+        else:
+            print("no references in json file")
 
     def json_buttons_connect(self):
         self.actionImport_json.triggered.connect(self.json_getFields)

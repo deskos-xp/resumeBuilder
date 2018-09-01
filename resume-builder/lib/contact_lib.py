@@ -21,6 +21,7 @@ class contact:
         contact['zip']=widget.zip.text()
         contact['city']=widget.city.text()
         contact['state']=str(widget.state.currentText())
+        contact['type']=str(widget.phoneType.currentText())
         count=0
         contactCount=0
         for key in contact.keys():
@@ -143,8 +144,13 @@ class contact:
         self.contact_clear(widget)
         self.contact_phone_check(widget)
         self.contact_invalidUntilFilled(widget)
+        self.contact_setPhoneTypes(widget)
         self.contact_buttons_connect(widget)
         return widget1,widget
+    
+    def contact_setPhoneTypes(self,widget):
+        for ty in self.phoneTypes:
+            widget.phoneType.addItem(ty)
 
     def newContact(self):
         if self.groupBox_contact == None:
@@ -174,5 +180,5 @@ class contact:
         widget.zip.textChanged.connect(lambda:self.invalidUntilFilled('le',widget.zip))
         widget.city.textChanged.connect(lambda:self.invalidUntilFilled('le',widget.city))
         widget.state.currentIndexChanged.connect(self.validateFields)
-
+        widget.phoneType.currentTextChanged.connect(self.validateFields)
 

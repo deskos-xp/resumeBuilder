@@ -90,6 +90,13 @@ Washington
 West Virginia
 Wisconsin
 Wyoming'''.split('\n')
+        self.phoneTypes='''
+Phone Type
+Home
+Work
+Cell'''.split('\n')
+        self.phoneTypes=[i for i in self.phoneTypes if i != '']
+
         self.groupBox_contact=None
         self.groupBox_emp=None
         self.groupBox_school=None

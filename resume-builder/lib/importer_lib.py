@@ -18,6 +18,7 @@ class importer:
         c.city.setText(obj['city'])
         c.state.setCurrentText(obj['state'])
         c.zip.setText(obj['zip'])
+        c.phoneType.setCurrentText(obj['type'])
         self.contact_submit(c)
 
     def import_getFname(self,ext='xml',docType=''):
@@ -242,6 +243,7 @@ class importer:
 
     def getReferences(self,referencesEmp):
         self.bar('References')
+        print(referencesEmp)
         for num,ref in enumerate(referencesEmp.keys()):
             self.newRef()
             b=self.groupBox_ref[str(num)][1]
@@ -257,7 +259,8 @@ class importer:
             b.state.setCurrentText(referencesEmp[ref]['state'])
             b.zip.setText(referencesEmp[ref]['zip'])
             b.phoneType.setCurrentText(referencesEmp[ref]['type'])
-
+        self.ref_submit()
+        self.gen_compile_data()
 
     def getRefData(self):
         x=import_xml.get_xml()

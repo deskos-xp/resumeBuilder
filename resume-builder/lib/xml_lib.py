@@ -17,6 +17,7 @@ class data:
                         'street':'',
                         'locale':'',
                         'phone':'',
+                        'type':'',
                         'email':'',
                         }
                 xmlPre['name']='{} {} {}'.format(
@@ -32,10 +33,17 @@ class data:
                         )
                 xmlPre['email']=data['email']
                 xmlPre['phone']=data['phone']
-                    
+                xmlPre['type']=data['type']
+
                 for key in xmlPre.keys():
-                    sub=lxml.etree.SubElement(contact,key)
-                    sub.text=xmlPre[key]
+                    if key != 'type':
+                        if key == 'phone':
+                            sub=lxml.etree.SubElement(contact,key,type=xmlPre['type'])
+                            sub.text=xmlPre[key]
+                        else:
+                            sub=lxml.etree.SubElement(contact,key)
+                            sub.text=xmlPre[key]
+
                 print(lxml.etree.tostring(contact))
                 return contact
 
@@ -175,7 +183,7 @@ class data:
 
                     sub=lxml.etree.SubElement(reference,'phone',email=data[key]['email'],owner='{} {} {}'.format(data[key]['fname'],data[key]['mname'],data[key]['lname']),title=data[key]['title'],type=ref['type'])
                     sub.text=ref['phone']
-                print(lxml.etree.tostring(refXml))
+                print('#pre-ref#',lxml.etree.tostring(refXml))
                 return refXml
 
     def mkDocs(self):

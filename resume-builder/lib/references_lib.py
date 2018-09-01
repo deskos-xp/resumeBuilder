@@ -111,7 +111,7 @@ class ref:
                 QtWidgets.QWidget().setTabOrder(p1,p2)
 
     def ref_setPhoneTypes(self,widget):
-        for item in ['Phone Type','Home','Work','Cell']:
+        for item in self.phoneTypes:
             widget.phoneType.addItem(item)
 
     def ref_submit(self):

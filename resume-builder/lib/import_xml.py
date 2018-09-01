@@ -70,6 +70,7 @@ class get_xml:
             'city':'',
             'state':'',
             'zip':'',
+            'type':'',
         }
         for child in root:
             if child.tag == 'contact':
@@ -78,6 +79,10 @@ class get_xml:
                         if subChild.tag == 'name':
                             data['fname'],data['mname'],data['lname']=self.breakName(subChild.text)
                         if subChild.tag == 'phone':
+                            if 'type' in subChild.attrib.keys():
+                                data['type']=subChild.attrib['type']
+                            else:
+                                data['type']=''
                             data['phone']=subChild.text
                         if subChild.tag == 'street':
                             data['street']=subChild.text

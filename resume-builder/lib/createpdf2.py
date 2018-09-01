@@ -114,7 +114,8 @@ class gen:
         contacts=0
         for i in resume.contact.keys():
             if i not in keys:
-                keys.append(i)
+                if i != 'type':
+                    keys.append(i)
         for i in keys:
             print('Resume [{}]: {}'.format(i,resume.contact[i]))            
             if i == 'name':
@@ -132,7 +133,11 @@ class gen:
                 if contacts > 1:
                     fail+=1
                 #if you have either a phone number or a email address, fail does not increment
-                parts.append(Paragraph(resume.contact[i],style.titleCenterItalic))
+                if i == 'phone':
+                    parts.append(Paragraph('({1}) {0}'.format(resume.contact[i],resume.contact['type']),style.titleCenterItalic))
+                else:
+                    #print('#createpdf2#',resume.contact)
+                    parts.append(Paragraph(resume.contact[i],style.titleCenterItalic))
             else:
                 if resume.contact[i] == ' ':
                     fail+=1
@@ -154,7 +159,8 @@ class gen:
         contacts=0
         for i in contact.keys():
             if i not in keys:
-                keys.append(i)
+                if i != 'type':
+                    keys.append(i)
         for i in keys:
             if contact[i] == None:
                 contact[i]=' '
@@ -176,7 +182,10 @@ class gen:
                     if contacts > 1:
                         fail+=1
                 else:
-                    parts.append(Paragraph(contact[i],style.titleCenterItalic))
+                    if i == 'phone':
+                        parts.append(Paragraph('({}) {}'.format(contact['type'],contact[i]),style.titleCenterItalic))
+                    else:
+                        parts.append(Paragraph(contact[i],style.titleCenterItalic))
             else:
                 parts.append(Paragraph(contact[i],style.titleCenter))
                 if contact[i] == ' ':
@@ -376,7 +385,7 @@ class gen:
                 ['street',style.style],
                 ['locale',style.style],
                 ['email',style.style],
-                ['phone',style.style]
+                ['phone',style.style],
                 ]
         tmp=self.mkTitleReferences(contacts,style)
         if self.missingContactExit == True:
@@ -386,6 +395,7 @@ class gen:
         counter=0
         contactsFail=0
         for i in ref:
+            print(i)
             entryFailed=False
             partsExt=[]
             if counter >= 8:
@@ -395,7 +405,7 @@ class gen:
             for tag in orders:
                 if tag in ['phone','email']:
                     if i[tag[0]] != None: 
-                        partsExt.append(Paragraph(i[tag[0]],tag[1]))
+                        partsExt.append(Paragraph(tag[0],tag[1]))
                     else:
                         contactsFail+=1
                     if contactsFail > 1:
@@ -470,6 +480,9 @@ class readXmlDoc:
             if child.tag == 'contact':
                 contact={}
                 for contactInfo in child:
+                    print('getResume()',child.tag,child.attrib)
+                    if 'type' in contactInfo.attrib.keys():
+                        contact['type']=contactInfo.attrib['type']
                     if contactInfo.text == None:
                         contactInfo.text=' '
                     if contactInfo.tag == 'phone':
@@ -545,6 +558,8 @@ class readXmlDoc:
                 contact={}
                 for contactInfo in child:
                     if contactInfo.tag == 'phone':
+                        if 'type' in contactInfo.attrib.keys():
+                            contact['type']=contactInfo.attrib['type']
                         contactInfo.text=self.reformatPhoneNumber(contactInfo.text)
                     contact[contactInfo.tag]=contactInfo.text
                 return contact

@@ -25,6 +25,7 @@ class pdf:
             os.mkdir(self.tmpdir)
         xmlGen=xml_lib.data()
         xmlGen.master=self.compiledData
+        print('#compiled data#',self.compiledData)
         docs=xmlGen.mkDocs()
         if doc == 'references':
             if docs[1] != None:
