@@ -20,10 +20,15 @@ create import functionality
 	#	get resume.xml
 	#	get references.xml
 
-	json import
-		get resume.json
+	#json import
+	#	get resume.json
 
-	read documents, add widgets according to retrieved data, fill widgets with retrieved data
+	#read documents, add widgets according to retrieved data, fill widgets with retrieved data
 
 create icons for resumeBuilder
-add comboBox for phone type and name suffix
+	#-window icon created
+	-other icons [needs some thought]
+#add comboBox for phone type
+add 'about menu' to menu bar to display program information
+create a depency list
+create alternative reportlab templates for both documents
