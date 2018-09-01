@@ -248,7 +248,6 @@ Wyoming'''.split('\n')
                                         self.counted[i][Num]['0']+=1
                 #print(self.counted[i][Num]['0'],i,self.counted[i][Num]['1'],tname,getattr(w,x).objectName())
                 self.locker(i,Num)
-                #print(self.counted)
     def locker(self,i,Num):
         states={
                 'Contact':0,
@@ -260,11 +259,14 @@ Wyoming'''.split('\n')
                 'Additional Information':0,
                 'References':0,
                 }
+        up=1
         for key in self.counted.keys():
             tname=key
             for num in self.counted[key].keys():
                 if tname in ['Contact','References']:
-                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']+1:
+                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']:
+                        states[tname]+=1
+                    elif self.counted[key][num]['0'] >= self.counted[key][num]['1']+up:
                         states[tname]+=1
                 else:
                     if self.counted[key][num]['0'] >= self.counted[key][num]['1']:
