@@ -217,6 +217,7 @@ Wyoming'''.split('\n')
         self.counted[i][Num]['0']=0
         self.counted[i][Num]['1']=len(a)
         #print(self.counted)
+        print(a)
         for num,x in enumerate(a):
             item=type(getattr(w,x))
             if item in [QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox]:
