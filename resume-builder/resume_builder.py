@@ -264,9 +264,7 @@ Wyoming'''.split('\n')
             tname=key
             for num in self.counted[key].keys():
                 if tname in ['Contact','References']:
-                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']:
-                        states[tname]+=1
-                    elif self.counted[key][num]['0'] >= self.counted[key][num]['1']+up:
+                    if self.counted[key][num]['0'] >= self.counted[key][num]['1']+up:
                         states[tname]+=1
                 else:
                     if self.counted[key][num]['0'] >= self.counted[key][num]['1']:
