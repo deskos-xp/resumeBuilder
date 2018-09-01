@@ -210,12 +210,14 @@ Wyoming'''.split('\n')
         tname=self.tabWidget.tabText(self.tabWidget.currentIndex())
         #need to get children of w
         a=[attr for attr in dir(w) if not callable(getattr(w,attr)) and not attr.startswith("__") and type(getattr(w,attr)) in (QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox)]
+        a=[i for i in a if i not in ['mname']]
         if i not in self.counted.keys():
             self.counted[i]={}
         self.counted[i][Num]={}
         self.counted[i][Num]['0']=0
         self.counted[i][Num]['1']=len(a)
         #print(self.counted)
+        print(a)
         for num,x in enumerate(a):
             item=type(getattr(w,x))
             if item in [QtWidgets.QLineEdit,QtWidgets.QTextEdit,QtWidgets.QComboBox]:
@@ -259,7 +261,7 @@ Wyoming'''.split('\n')
                 'Additional Information':0,
                 'References':0,
                 }
-        up=1
+        up=0
         for key in self.counted.keys():
             tname=key
             for num in self.counted[key].keys():
