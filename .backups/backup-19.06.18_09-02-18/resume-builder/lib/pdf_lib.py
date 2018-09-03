@@ -21,7 +21,6 @@ class pdf:
             ofile.write(data)
 
     def mkTemp(self,doc,statusBar):
-        self.tmpdir=os.path.join(os.environ['HOME'],self.tmpdir)
         if not os.path.exists(self.tmpdir):
             os.mkdir(self.tmpdir)
         xmlGen=xml_lib.data()
