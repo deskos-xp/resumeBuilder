@@ -22,7 +22,7 @@ class importer:
         self.contact_submit(c)
 
     def import_getFname(self,ext='xml',docType=''):
-        fname=QtWidgets.QFileDialog.getOpenFileName(self,'Import {} {}'.format(ext,docType),'.',filter='{0} Files (*.{0})'.format(ext))
+        fname=QtWidgets.QFileDialog.getOpenFileName(self,'Import {} {}'.format(ext,docType),os.environ['HOME'],filter='{0} Files (*.{0})'.format(ext))
         if fname[0]:
             if os.path.exists(fname[0]):
                 return fname[0]
@@ -219,19 +219,21 @@ class importer:
         x.resume=self.import_getFname(ext='xml',docType='Resume')
         if x.resume != None:
             self.resumeClearWidgets()
-        resXml=x.getXml(x.resume)[1]
-        resumeContact=x.contact(resXml)
-        resumeFields=x.getResumeFields(resXml)
-        x.printResDict(resumeFields)
-        self.setContactTabFields(resumeContact)    
-        #individual functions for each tab should be used beyond this point in the function
-        self.resumeGetEmployer(resumeFields)
-        self.resumeGetSchool(resumeFields)
-        self.resumeGetCert(resumeFields)
-        self.resumeGetSkill(resumeFields)
-        self.resumeGetLink(resumeFields)
-        self.resumeGetAi(resumeFields)
-        self.gen_compile_data()
+            resXml=x.getXml(x.resume)[1]
+            resumeContact=x.contact(resXml)
+            resumeFields=x.getResumeFields(resXml)
+            x.printResDict(resumeFields)
+            self.setContactTabFields(resumeContact)    
+            #individual functions for each tab should be used beyond this point in the function
+            self.resumeGetEmployer(resumeFields)
+            self.resumeGetSchool(resumeFields)
+            self.resumeGetCert(resumeFields)
+            self.resumeGetSkill(resumeFields)
+            self.resumeGetLink(resumeFields)
+            self.resumeGetAi(resumeFields)
+            self.gen_compile_data()
+        else:
+            print("user hit cancel, most likely!")
     
     def referencesClearWidgets(self):
         if self.groupBox_ref != None:
