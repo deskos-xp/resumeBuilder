@@ -356,6 +356,7 @@ class gen:
     def genResume(self,resume):
         style=self.stylesReferences()
         doc = SimpleDocTemplate(os.path.join(self.docPath,self.resumePDF),pagesize=letter,leftMargin=50,rightMargin=10,topMargin=36,bottomMargin=46)
+        doc.title=os.path.basename(self.resumePDF)
         parts=[]
         tmp=self.mkTitle(resume,style)
         if self.missingContactExit == True:
@@ -375,7 +376,7 @@ class gen:
     def genReferencesDoc(self,ref,contacts):    
         style=self.stylesReferences()
         doc = SimpleDocTemplate(os.path.join(self.docPath,self.referencesPDF), pagesize=letter,leftMargin=50,rightMargin=10,topMargin=36,bottomMargin=46)
-
+        doc.title=os.path.basename(self.referencesPDF)
         parts = []
         
         orders=[
