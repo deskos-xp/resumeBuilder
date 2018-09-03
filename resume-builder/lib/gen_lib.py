@@ -33,9 +33,9 @@ class gen:
                 else:
                     path=os.path.dirname(fname)
             else:
-                path='./'
+                path=os.environ['HOME']
         else:
-            path='./'
+            path=path=os.environ['HOME']
         return path
 
     def getFName(self,ext,default,data=None,returnName=False):
