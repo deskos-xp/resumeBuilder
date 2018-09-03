@@ -176,18 +176,11 @@ Cell'''.split('\n')
                         self.entity(button)
             else:
                 self.actionNext.setEnabled(False)
-        self.previous_action_disable()
         #self.validateFields() 
-
-    def previous_action_disable(self):
-        if self.tabWidget.currentIndex() < 1:
-            self.actionPrevious.setEnabled(False)
-        else:
-            self.actionPrevious.setEnabled(True)
 
     def next_action_tab(self):
         self.tabWidget.currentChanged.connect(self.adjust_next)
-        
+
     def quit(self):
         self.actionExit.triggered.connect(QtWidgets.QApplication.quit)
    
@@ -350,15 +343,12 @@ Cell'''.split('\n')
 
     def nextCallBack(self,widget=None):
         tab=self.tabWidget.currentIndex()
-        if tab > 0:
-            self.actionPrevious.setEnabled(True)
         self.tabWidget.setCurrentIndex(tab+1)
         tname=self.tabWidget.tabText(tab)
         tnameNext=self.tabWidget.tabText(tab+1)
         self.next_submit(tname,tnameNext,widget)
 
     def previousCallBack(self):
-        self.previous_action_disable()
         self.tabWidget.setCurrentIndex(self.tabWidget.currentIndex()-1)
         
     def previous(self):
