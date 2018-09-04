@@ -29,11 +29,8 @@ create icons for resumeBuilder
 	#-window icon created
 	-other icons [needs some thought]
 #add comboBox for phone type
-#add a type combobox to additional_info tab
-#	if type is other display a line edit for type with a checkbox for skipping type declaration
-
+add a type combobox to additional_info tab
+	if type is other display a line edit for type with a checkbox for skipping type declaration
 add 'about menu' to menu bar to display program information
 create a depency list
 create alternative reportlab templates for both documents
-
-once more resume/references templates have been created, create template manager tab

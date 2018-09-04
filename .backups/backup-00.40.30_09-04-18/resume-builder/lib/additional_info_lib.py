@@ -17,10 +17,7 @@ class ai:
                 w=self.groupBox_ai[key][1]
                 tabChains=[
                         [w.pushButton,w.pushButton_2],
-                        [w.pushButton_2,w.line],
-                        [w.line,w.skip_type],
-                        [w.skip_type,w.ai_type],
-                        [w.ai_type,w.ai_type_edit],
+                        [w.pushButton_2,w.line]
                         ]
                 for p1,p2 in tabChains:
                     QtWidgets.QWidget().setTabOrder(p1,p2)
