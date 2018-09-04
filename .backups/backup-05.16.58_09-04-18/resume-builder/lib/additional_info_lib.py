@@ -96,8 +96,6 @@ class ai:
 
     def ai_clear_actions(self,widget):
         widget.line.setPlainText('')
-        widget.skip_type.setChecked(False)
-        widget.ai_type.setCurrentText('Type')
         self.validateFields()
 
     def ai_clear_button(self,widget):
