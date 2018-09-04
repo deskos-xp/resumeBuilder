@@ -256,6 +256,7 @@ Other'''.split('\n')
                         self.counted[i][Num]['0']+=1
                 else:
                     #self.counted[i][Num]['1']+=1
+                    print(x,self.counted[i][Num])
                     if item in [QtWidgets.QComboBox]:
                         status=getattr(w,x).currentText()
                         if x == 'school_type':
