@@ -24,7 +24,60 @@ class ai:
 
     def ai_invalidUntilFilled(self,widget):
         self.setInvalidFields(widget.line)
-        widget.line.textChanged.connect(lambda:self.invalidUntilFilled('le',widget.line))
+        self.setInvalidFields(widget.ai_type_edit)
+        widget.line.textChanged.connect(lambda:self.invalidUntilFilled('te',widget.line))
+        widget.ai_type_edit.textChanged.connect(lambda:self.invalidUntilFilled('le',widget.ai_type_edit))
+
+    def ai_skip_type_callback(self,widget):
+        if widget.skip_type.isChecked() == True:
+            widget.ai_type_edit.setText('Disabled')
+            self.setValidFields(widget.ai_type_edit)
+            widget.ai_type_edit.setEnabled(False)
+            widget.ai_type.setEnabled(False)
+            print(widget.ai_type_edit.text())
+        else:
+            if widget.ai_type.currentText() not in ['Type','Other']:
+                widget.ai_type_edit.setText(widget.ai_type.currentText())
+                self.setValidFields(widget.ai_type_edit)
+            elif widget.ai_type.currentText() in ['Other']:
+                widget.ai_type_edit.setEnabled(True)
+                widget.ai_type_edit.setText('')
+            elif widget.ai_type.currentText() in ['Type']:
+                widget.ai_type_edit.setEnabled(False)
+                widget.ai_type_edit.setText(widget.ai_type.currentText())
+            
+            if widget.ai_type.currentText() in ['Type','Other']:
+                self.setInvalidFields(widget.ai_type_edit)
+            widget.ai_type.setEnabled(True)
+
+
+    def ai_skip_type(self,widget):
+        widget.skip_type.toggled.connect(lambda:self.ai_skip_type_callback(widget))
+
+    def ai_type_callback(self,widget):
+        text=widget.ai_type.currentText()
+        if text == 'Other':
+            widget.ai_type_edit.setEnabled(True)
+            widget.ai_type_edit.setText('')
+        else:
+            widget.ai_type_edit.setText(widget.ai_type.currentText())
+            widget.ai_type_edit.setEnabled(False)
+
+        if text in ['Other','Type']:
+            self.setInvalidFields(widget.ai_type_edit)
+
+    def ai_set_types(self,widget):
+        for t in self.aiTypes:
+            widget.ai_type.addItem(t)
+        widget.ai_type.currentIndexChanged.connect(lambda:self.ai_type_callback(widget))
+        widget.ai_type_edit.setText(widget.ai_type.currentText())
+        widget.ai_type_edit.setEnabled(False)
+        self.setInvalidFields(widget.ai_type_edit)
+
+    def stripBadText(self,text):
+        for char in ['\t']:
+            text=text.replace(char,'')
+        return text
 
     def ai_submit(self):
         data={}
@@ -32,12 +85,14 @@ class ai:
             for group in self.groupBox_ai.keys():
                 data[group]={}
                 e=self.groupBox_ai[group][1]
-                data[group]['line']=e.line.text()
+                text=e.line.toPlainText()
+                data[group]['line']=self.stripBadText(text)
+                data[group]['type']=e.ai_type_edit.text()
         self.ai_data=data
         print(data)
 
     def ai_clear_actions(self,widget):
-        widget.line.setText('')
+        widget.line.setPlainText('')
         self.validateFields()
 
     def ai_clear_button(self,widget):
@@ -71,6 +126,9 @@ class ai:
         self.ai_clear_button(widget)
         #set invalid fields
         self.ai_invalidUntilFilled(widget)
+        #set ai Type
+        self.ai_skip_type(widget)
+        self.ai_set_types(widget)
 
         return widget1,widget
 

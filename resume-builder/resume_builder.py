@@ -95,6 +95,15 @@ Phone Type
 Home
 Work
 Cell'''.split('\n')
+
+        self.aiTypes='''
+Type
+Activities
+Awards
+Hobbies
+Objective
+Other'''.split('\n')
+        self.aiTypes=[i for i in self.aiTypes if i != '']
         self.phoneTypes=[i for i in self.phoneTypes if i != '']
 
         self.groupBox_contact=None
@@ -247,10 +256,17 @@ Cell'''.split('\n')
                         self.counted[i][Num]['0']+=1
                 else:
                     #self.counted[i][Num]['1']+=1
+                    print(x,self.counted[i][Num])
                     if item in [QtWidgets.QComboBox]:
                         status=getattr(w,x).currentText()
                         if x == 'school_type':
                             self.counted[i][Num]['0']+=1
+                        elif x == 'ai_type':
+                            if getattr(w,'skip_type').isChecked() == True:
+                                self.counted[i][Num]['0']+=1
+                            else:
+                                if getattr(w,x).currentText() != 'Type':
+                                    self.counted[i][Num]['0']+=1
                         else:
                             if status not in ['Set Your State','Basic School Types','Phone Type']:
                                 self.counted[i][Num]['0']+=1

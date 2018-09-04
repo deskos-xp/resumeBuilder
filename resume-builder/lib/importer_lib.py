@@ -211,7 +211,16 @@ class importer:
                 self.newAi()
                 b=self.groupBox_ai[str(num)][1]
                 print('{} "{}"'.format(lines,text.encode()))
-                b.line.setText(text)
+                b.line.setPlainText(text)
+                t=lines[line]['type']
+                if t == 'Disabled':
+                    b.skip_type.setChecked(True)
+                else:
+                    if t not in self.aiTypes:
+                        b.ai_type.setCurrentText('Other')
+                        b.ai_type_edit.setText(t)
+                    else:
+                        b.ai_type.setCurrentText(t)
         self.ai_submit()
 
     def getResumeData(self):

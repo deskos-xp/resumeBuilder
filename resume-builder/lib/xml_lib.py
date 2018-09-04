@@ -127,10 +127,9 @@ class data:
             if self.master['additional_info'] not in self.failedStates:
                 data=self.master['additional_info']
                 aiXml=lxml.etree.Element('additional_info',tag='Additional Information')
-                lines=[]
-                for key in data.keys():
-                    lines.append(data[key]['line'])
-                aiXml.text='\n'.join(lines)
+                for num,key in enumerate(data.keys()):
+                    xmlLine=lxml.etree.SubElement(aiXml,'line',num=str(num),type=data[key]['type'])
+                    xmlLine.text=data[key]['line']
                 print(lxml.etree.tostring(aiXml))
                 return aiXml
 

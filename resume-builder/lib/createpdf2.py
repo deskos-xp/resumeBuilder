@@ -548,8 +548,10 @@ class readXmlDoc:
                 res.certs=certs
             if child.tag == 'additional_info':
                 addInfo={}
+                addInfo[child.tag]=[]
                 addInfo['tag']=child.attrib['tag']
-                addInfo[child.tag]=[i.replace('\t','').replace('\xa0',' ') for i in child.text.split('\n') if i != '']
+                for line in child:
+                    addInfo[child.tag].extend([i.replace('\t','').replace('\xa0',' ') for i in line.text.split('\n') if i != ''])
                 res.addInfo=addInfo
         return res
     

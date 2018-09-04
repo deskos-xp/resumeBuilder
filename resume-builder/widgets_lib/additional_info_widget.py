@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'addition_info.ui'
+# Form implementation generated from reading ui file 'ui/addition_info.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -18,7 +18,7 @@ class Ui_additional_info(object):
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.groupBox = QtWidgets.QGroupBox(additional_info)
-        self.groupBox.setMinimumSize(QtCore.QSize(400, 100))
+        self.groupBox.setMinimumSize(QtCore.QSize(400, 250))
         self.groupBox.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.groupBox.setObjectName("groupBox")
         self.formLayout_2 = QtWidgets.QFormLayout(self.groupBox)
@@ -39,8 +39,19 @@ class Ui_additional_info(object):
         self.label = QtWidgets.QLabel(self.groupBox)
         self.label.setObjectName("label")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.line = QtWidgets.QLineEdit(self.groupBox)
-        self.line.setMinimumSize(QtCore.QSize(300, 0))
+        self.ai_type_edit = QtWidgets.QLineEdit(self.groupBox)
+        self.ai_type_edit.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.ai_type_edit.setObjectName("ai_type_edit")
+        self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.ai_type_edit)
+        self.skip_type = QtWidgets.QCheckBox(self.groupBox)
+        self.skip_type.setObjectName("skip_type")
+        self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.skip_type)
+        self.ai_type = QtWidgets.QComboBox(self.groupBox)
+        self.ai_type.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.ai_type.setObjectName("ai_type")
+        self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.ai_type)
+        self.line = QtWidgets.QTextEdit(self.groupBox)
+        self.line.setMaximumSize(QtCore.QSize(400, 200))
         self.line.setObjectName("line")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
@@ -56,4 +67,5 @@ class Ui_additional_info(object):
         self.pushButton.setText(_translate("additional_info", "Remove"))
         self.pushButton_2.setText(_translate("additional_info", "Clear"))
         self.label.setText(_translate("additional_info", "Additional Info."))
+        self.skip_type.setText(_translate("additional_info", "Skip Type"))
 
