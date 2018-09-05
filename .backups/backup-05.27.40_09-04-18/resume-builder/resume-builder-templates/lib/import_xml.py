@@ -188,7 +188,6 @@ class get_xml:
                 'city':'',
                 'state':'',
                 'zip':'',
-                'phoneType':''
                 }
         for child in root:
             if child.tag == 'contact':
@@ -199,7 +198,6 @@ class get_xml:
                         contact['mname']=name[1]
                         contact['lname']=name[2]
                     if info.tag == 'phone':
-                        contact['phoneType']=info.attrib['type']
                         num=self.phoneStripper(info.text)
                         phone=self.breakPhone(num)
                         contact['phone_local']=phone[2]
@@ -386,7 +384,6 @@ class get_xml:
         data=self.resumeGetAi(root)
         for key in data.keys():
             self.resumeData[key]=data[key]
-        return self.resumeData
 
     def referencesGetReferences(self,root):
         data={}
