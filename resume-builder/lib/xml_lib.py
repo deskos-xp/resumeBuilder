@@ -119,7 +119,7 @@ class data:
                     skill=lxml.etree.SubElement(skillXml,'skill',num=str(num))
                     skill.text='{} ({})'.format(data[key]['name'],data[key]['date'])
 
-                print(lxml.etree.tostring(skillXml))
+                print('\033[1;31;40mskill\033[1;40;m',lxml.etree.tostring(skillXml))
                 return skillXml
 
     def additional_info(self):

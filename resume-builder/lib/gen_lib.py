@@ -26,6 +26,7 @@ class gen:
         print(self.compiledData)
 
     def mkPath(self,fname):
+        print('\033[1;31;40m{}\033[1;40;m'.format(fname))
         if fname != '':
             if os.path.exists(fname):
                 if os.path.isdir(fname):

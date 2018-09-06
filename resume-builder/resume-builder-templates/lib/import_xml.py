@@ -316,9 +316,9 @@ class get_xml:
         MONTHS=''
         YEARS=''
         for num,i in enumerate(skill):
-            if i == 'Months':
+            if i in ['Months','Month']:
                 MONTHS=skill[num-1]
-            if i == 'Years':
+            if i in ['Years','Year']:
                 YEARS=skill[num-1]
 
         return SKILL,MONTHS,YEARS,GRADE
