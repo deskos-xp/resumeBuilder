@@ -437,6 +437,7 @@ class get_xml:
     def referencesGetAllFields(self,root):
         self.referencesData['contact']=self.resumeGetContact(root)
         self.referencesData['references']=self.referencesGetReferences(root)
+        return self.referencesData
 
 
 if __name__ == "__main__":

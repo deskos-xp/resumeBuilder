@@ -1,3 +1,9 @@
+#! /usr/bin/env python3
+######################
+# NoGuiLinux         #
+# Generate Resume    #
+# Document           #
+######################
 import import_xml
 from reportlab.lib.enums import *
 from reportlab.lib.pagesizes import letter
@@ -34,12 +40,7 @@ class styles:
                 ]
         for p1,p2 in fonts:
             pdfmetrics.registerFont(TTFont(p1,p2))
-        '''
-        pdfmetrics.registerFont(TTFont('Times','times.ttf'))
-        pdfmetrics.registerFont(TTFont('TimesI','timesi.ttf'))
-        pdfmetrics.registerFont(TTFont('TimesB','timesbd.ttf'))
-        pdfmetrics.registerFont(TTFont('TimesBI','timesbi.ttf'))
-        '''
+
     class obj:
         def __init__(self):
             self.tasks()
@@ -462,18 +463,21 @@ class resumeGen:
             return None
             #print(self.data)
 
-    def doc_init(self):
-        doc=SimpleDocTemplate(self.resumePDF,pagesize=letter,
+    def doc_init(self,title):
+        doc=SimpleDocTemplate(title,pagesize=letter,
                 rightMargin=25,
                 leftMargin=25,
                 topMargin=25,
                 bottomMargin=25)
-        doc.title=self.resumePDF
-        self.docP=doc
-        self.story=[]
+        doc.title=title
+        return doc,[]
         
-    def header(self):
-        data=self.data['contact']
+    def header(self,data='self'):
+        if data == 'self':
+            data=self.data['contact']
+        else:
+            data=data
+
         if data in self.failedStates:
             return None
         self.status('header',data)
@@ -500,9 +504,10 @@ class resumeGen:
 
         tbls=[[tbl1,tbl2]]
         tbls=Table(tbls,colWidths=(0.1*inch)*39)
-        self.story.append(tbls)
-        self.story.append(flowables.HRFlowable(width=letter[0]-75))
-
+        return [tbls,flowables.HRFlowable(width=letter[0]-75)]
+        #self.story.append(tbls)
+        #self.story.append(flowables.HRFlowable(width=letter[0]-75))
+        
     def spacer(self):
         self.story.append(flowables.Spacer(1,0.075*inch))
         #self.story.append(flowables.HRFlowable(width=letter[0]))
@@ -517,7 +522,7 @@ class resumeGen:
             objectives.append(Paragraph(data[key],self.styling.objective.objective))
         tbl=Table([objectives])
         tbl.setStyle(self.styling.document.defaultTableCenter)
-        self.story.append(tbl)
+        return [tbl]
         self.status('objective',data)
 
     def skills(self):
@@ -567,7 +572,7 @@ class resumeGen:
         tbls.append([tbl])
         tbls=Table(tbls)
         tbls=flowables.KeepTogether(tbls)
-        self.story.append(tbls)
+        return [tbls]
         #self.story.append(Paragraph(skillString,self.styling.document.normal))
         self.status('skills',data)
 
@@ -619,7 +624,7 @@ class resumeGen:
             #tbl=flowables.KeepTogether(tbl)
             tbls.append([tbl])
         tbls=Table(tbls)
-        self.story.append(tbls)
+        return [tbls]
 
     def education(self):
         data=self.data['education']
@@ -641,7 +646,7 @@ class resumeGen:
             tbls.append([tbl])
         tbls=Table(tbls)
         tbls=flowables.KeepTogether(tbls)
-        self.story.append(tbls)
+        return [tbls]
 
     def certs(self):
         data=self.data['certifications']
@@ -659,7 +664,7 @@ class resumeGen:
             tbls.append([tbl])
         tbls=Table(tbls)
         tbls=flowables.KeepTogether(tbls)
-        self.story.append(tbls)
+        return [tbls]
 
     def awards(self,skey,name):
         data=self.data[skey]
@@ -693,7 +698,7 @@ class resumeGen:
             tbls.append([tbl])
         tbls=Table(tbls)
         tbls=flowables.KeepTogether(tbls)
-        self.story.append(tbls)
+        return [tbls]
         self.status(skey,data)
     
     def additional_info_other(self):
@@ -735,7 +740,7 @@ class resumeGen:
              
             tbls=Table(tbls)
             tbls=flowables.KeepTogether(tbls)
-            self.story.append(tbls)
+            return [tbls]
 
 
     def links(self):
@@ -757,7 +762,7 @@ class resumeGen:
         tbls.append([tbl])
         tbls=Table(tbls)
         tbls=flowables.KeepTogether(tbls)
-        self.story.append(tbls)
+        return [tbls]
 
     def status(self,msg,data):
         print('\033[1;31;40m{}\033[1;40;m'.format(msg),data)
@@ -773,25 +778,45 @@ class resumeGen:
     
     def tasks(self):
         state=self.mkResume()
+        content=[]
         if state == True:
-            self.doc_init()
-            self.header()
-            self.objective()
-            self.skills()
-            self.certs()
-            self.workHistory()
-            self.education()
-    
+            comp=self.doc_init(self.resumePDF)
+            self.story=comp[1]
+            self.docP=comp[0]
+            calls=[self.header,self.objective,self.skills,self.certs,self.workHistory,self.education]
+            for call in calls:
+                res=call()
+                if res != None:
+                    content.extend(res)
+            '''
+            content.extend(self.header())
+            content.extend(self.objective())
+            content.extend(self.skills())
+            content.extend(self.certs())
+            content.extend(self.workHistory())
+            content.extend(self.education())
+            '''
             for i,n in [
                     ['additional_info_awards','Awards'],
                     ['additional_info_hobbies','Hobbies'],
                     ['additional_info_activities','Activities'],
                     ['additional_info','Additional Information']
                     ]:
-                self.awards(i,n)
+                res=self.awards(i,n)
+                if res != None:
+                    content.extend(res)
+            calls=[self.additional_info_other,self.links]
+            for call in calls:
+                res=call()
+                if res != None:
+                    content.extend(res)
 
-            self.additional_info_other()
-            self.links()
+            #content.extend(self.additional_info_other())
+            #content.extend(self.links())
+            
+            for i in content:
+                if i != None:
+                    self.story.append(i)
             self.build()
         else:
             print('could not make document')
