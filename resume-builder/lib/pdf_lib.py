@@ -7,6 +7,7 @@ import lxml.etree
 import shutil
 sys.path.insert(0,'./resume-builder-templates/lib')
 import balanced
+import balanced_references
 class pdf:
     tmpdir='./tmp'
     tmpRefXml='reference-tmp.xml'
@@ -34,7 +35,7 @@ class pdf:
                 data=lxml.etree.tostring(docs[1])
                 path=os.path.join(self.tmpdir,self.tmpRefXml)
                 self.mkTempDoc(path,data)
-            
+                '''
                 xml=createpdf2.readXmlDoc()
                 xml.referencesXml=path
                 references,contact=xml.readReferences()
@@ -43,6 +44,11 @@ class pdf:
                 build.docPath=self.docPath
                 build.referencesPDF=self.referencesPDF
                 build.genReferencesDoc(references,contact)
+                '''
+                build=balanced_references.referencesGen()
+                build.referencesXml=path
+                build.referencesPdf=os.path.join(self.docPath,self.referencesPDF)
+                build.tasks()
                 shutil.rmtree(self.tmpdir)
             else:
                 msg='Not enough information to create document!'

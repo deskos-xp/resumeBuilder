@@ -404,7 +404,9 @@ class get_xml:
                 'fname':'',
                 'mname':'',
                 'lname':'',
-                'phone':'',
+                'phone_local':'',
+                'phone_region':'',
+                'phone_international':'',
                 'email':'',
                 'street':'',
                 'city':'',
@@ -423,7 +425,11 @@ class get_xml:
                     if subChild.tag == 'state':
                         data[key]['state']=subChild.text
                     if subChild.tag == 'phone':
-                        data[key]['phone']=subChild.text
+                        phone=self.breakPhone(self.phoneStripper(subChild.text))
+                        data[key]['phone_international']=phone[0]
+                        data[key]['phone_region']=phone[1]
+                        data[key]['phone_local']=phone[2]
+
                         data[key]['email']=subChild.attrib['email']
                         name=self.breakName(subChild.attrib['owner'])
                         data[key]['fname']=name[0]
