@@ -16,6 +16,7 @@ from reportlab.lib.colors import *
 #set fonts
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+import os,sys
 
 class styles:
     def __init__(self):
@@ -469,7 +470,7 @@ class resumeGen:
                 leftMargin=25,
                 topMargin=25,
                 bottomMargin=25)
-        doc.title=title
+        doc.title=os.path.basename(title)
         return doc,[]
         
     def header(self,data='self'):

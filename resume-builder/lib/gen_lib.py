@@ -6,6 +6,7 @@ sys.path.insert(0,'./lib')
 import xml_lib
 import pdf_lib
 import lxml.etree
+import string
 #sys.path.insert(0,'./resume-builder-templates/lib')
 class gen:
     compiledData={}
@@ -43,16 +44,71 @@ class gen:
     def getFName(self,ext,default,data=None,returnName=False):
         fname=self.save.text()
         path=self.mkPath(fname)
-        fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format(default,ext)),filter='{0} Files(*.{0})'.format(ext))
+        fnameDialog=['']
+        while fnameDialog[0] == '':
+            fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format(default,ext)),filter='{0} Files(*.{0})'.format(ext))
+            '''
+            for char in string.whitespace:
+                text=os.path.basename(fnameDialog[0]).split(char)
+                print('<><>:',text)
+                count=0
+                check=len(text)
+                for x in text:
+                    print(x)
+                    if x == '':
+                        count+=1
 
-        self.save.setText(fnameDialog[0])
-        print(fname,fnameDialog)
+                if count == check:
+                    fnameDialog=['']
+                    break
+                second=string.ascii_letters+string.digits+string.punctuation
+                count=0
+                check=len(second)
+                for char in second:
+                    if char not in os.path.basename(fnameDialog[0]):
+                        count+=1
+                print(count,check)
+                if count == check:
+                    fnameDialog=['']
+                    break
+            '''
+            if fnameDialog != ('',''):
+                fnameDialog=self.verifyFname(fnameDialog)
+            else:
+                break
+        if fnameDialog[0] != '':
+            self.save.setText(fnameDialog[0])
+        print(fname,fnameDialog[0])
         if data != None:
             if fnameDialog[0] != '':
                 with open(fnameDialog[0],'wb') as ofile:
                     ofile.write(data)
         if returnName == True:
             return fnameDialog[0]
+
+    def verifyFname(self,fnameDialog):
+        for char in string.whitespace:
+            text=os.path.basename(fnameDialog[0]).split(char)
+            count=0
+            check=len(text)
+            for x in text:
+                if x == '':
+                    count+=1
+
+            if count == check:
+                fnameDialog=['']
+                return fnameDialog
+            second=string.ascii_letters+string.digits+string.punctuation
+            count=0
+            check=len(second)
+            for char in second:
+                if char not in os.path.basename(fnameDialog[0]):
+                    count+=1
+            if count == check:
+                fnameDialog=['']
+                return fnameDialog
+        return fnameDialog
+
 
     def gen_pdf(self,doc):
         self.gen_compile_data()
@@ -63,7 +119,10 @@ class gen:
         elif doc == 'references':
             pdf.referencesPDF=self.getFName('pdf','references-default',returnName=True)
 
-        pdf.mkDoc(doc,self.statusBar())
+        if pdf.referencesPDF != '' and doc == 'references':
+            pdf.mkDoc(doc,self.statusBar())
+        if pdf.resumePDF != '' and doc == 'resume':
+            pdf.mkDoc(doc,self.statusBar())
 
     def gen_xml(self,doc):
         self.gen_compile_data()
