@@ -37,8 +37,3 @@ create a depency list
 create alternative reportlab templates for both documents
 
 once more resume/references templates have been created, create template manager tab
-
-
-add a dialog popup to indicate missing fields in resume.json and in xml docs
-	add information not missing,
-	missing information will be substituted with a blank value

@@ -120,7 +120,7 @@ class referencesGen:
         for i in content:
             if i != None:
                 self.story.append(i)
-        self.docP.build(self.story,onFirstPage=self.func.pageNum,onLaterPages=self.func.pageNum)
+        self.docP.build(self.story)
 
 if __name__ == '__main__':
     gen=referencesGen()
