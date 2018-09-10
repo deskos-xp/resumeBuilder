@@ -46,3 +46,4 @@ add a dialog popup to indicate missing fields in resume.json and in xml docs
 during import of data check for missing fields, log the missing field, substitute missing data
 	json[complete]
 	xml[pending]
+		additional info completed

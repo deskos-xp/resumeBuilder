@@ -5,7 +5,7 @@
 # Sheet                #
 ########################
 
-import import_xml
+import import_xml_t
 from reportlab.lib.enums import *
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import *
@@ -31,7 +31,7 @@ class referencesGen:
         self.func=balanced.resumeGen()
         self.func.styling=self.styling
         self.failedStates=self.func.failedStates
-        self.xml=import_xml.get_xml()
+        self.xml=import_xml_t.get_xml()
         self.xml.referencesXml=self.referencesXml
         self.docX=self.xml.returnXml(self.xml.referencesXml)
         if self.docX != None:

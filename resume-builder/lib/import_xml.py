@@ -297,13 +297,18 @@ class get_xml:
         for child in root:
             if child.tag == 'additional_info':
                 for num,line in enumerate(child):
-                    if line.text != '':
-                        data[str(num)]={
-                                'line':'',
-                                'type':''
-                                }
-                        data[str(num)]['type']=line.attrib['type']
-                        data[str(num)]['line']=line.text
+                    print('\033[1;31;40mai\033[1;40;m',line.tag,line.attrib.keys())
+                    if line.tag == 'line':
+                        if line.text != '':
+                            data[str(num)]={
+                                    'line':'',
+                                    'type':''
+                                    }
+                            if 'type' in line.attrib.keys():
+                                data[str(num)]['type']=line.attrib['type']
+                            else:
+                                data[str(num)]['type']='Type'
+                            data[str(num)]['line']=line.text
         return data
 
     def getResumeFields(self,root):

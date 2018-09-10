@@ -4,7 +4,7 @@
 # Generate Resume    #
 # Document           #
 ######################
-import import_xml
+import import_xml_t
 from reportlab.lib.enums import *
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import *
@@ -454,7 +454,7 @@ class resumeGen:
     autostart=False
     def mkResume(self):
         self.styling=styles()
-        self.xml=import_xml.get_xml()
+        self.xml=import_xml_t.get_xml()
         self.xml.resumeXml=self.resumeXML
         self.docX=self.xml.returnXml(self.xml.resumeXml) 
         if self.docX != None:
