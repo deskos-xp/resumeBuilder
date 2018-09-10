@@ -50,6 +50,7 @@ class get_json:
     def json_getEmployer(self,doc):
         x=import_xml.get_xml()
         d={'work_xp':doc['employment']}
+        d=self.checkFields(['city','state','zip','name','title','duties','date'],'work_xp',d)
         #print(d['work_xp'].keys())
         for i in d['work_xp'].keys():
             d['work_xp'][i]['employer']=d['work_xp'][i]['name']
@@ -64,6 +65,8 @@ class get_json:
     def json_getSchool(self,doc):
         x=import_xml.get_xml()
         d={'schools':doc['education']}
+        d=self.checkFields(['name','degree','date','state','city','zip','type'],'schools',d)
+
         for i in d['schools'].keys():
             date=x.breakDate(d['schools'][i]['date'])
             d['schools'][i]['startDate']=date[0]
@@ -73,9 +76,21 @@ class get_json:
                 print(d['schools'][i].pop(si))
         self.resumeGetSchool(d)
 
+    def checkFields(self,keys,key,data):
+        for i in keys:
+            for skey in data[key].keys():
+                if i not in data[key][skey].keys():
+                    data[key][skey][i]=''
+                    self.logger('[import json[certs]] fields : {}'.format(d[key]))
+                    self.logger('[import json[certs]] missing "{}" in {1}s["{1}"]["{}"]'.format(i,key,skey))
+        return data
+
     def json_getCert(self,doc):
         x=import_xml.get_xml()
         d={'certs':doc['certifications']}
+        #check for missing fields, log missing, insert missing
+        d=self.checkFields(['name','date'],'certs',d)
+        
         for i in d['certs'].keys():
             date=x.breakDate(d['certs'][i]['date'])
             d['certs'][i]['startDate']=date[0]
@@ -87,7 +102,9 @@ class get_json:
     def json_getSkill(self,doc):
         x=import_xml.get_xml()
         d={'skills':doc['skills']}
-        for i in d['skills'].keys():
+        d=self.checkFields(['name','date'],'skills',d)
+        
+        for i in d['skills'].keys():    
             skillString='{} ({})'.format(d['skills'][i]['name'],d['skills'][i]['date'])
             skill=x.breakSkill(skillString)
             d['skills'][i]['grade']=skill[3]
@@ -98,14 +115,19 @@ class get_json:
         self.resumeGetSkill(d)
 
     def json_getLink(self,doc):
+        doc=self.checkFields(['link'],'links',doc)
         self.resumeGetLink(doc)
 
     def json_getAi(self,doc):
+        doc=self.checkFields(['line','type'],'additional_info',doc)
         self.resumeGetAi(doc)
-            #from here on, import of each tab's data will be constricted to a per function basis, as in importer_lib
+        #from here on, import of each tab's data will be constricted to a per function basis, as in importer_lib
+
     def json_getRef(self,doc):
         if doc['references'] != None:
-            self.getReferences(doc['references'])
+            data=doc
+            data=self.checkFields(['employer','title','fname','mname','lname','phone','email','street','city','state','zip','type'],'references',data)
+            self.getReferences(data['references'])
             self.gen_compile_data()
         else:
             print("no references in json file")

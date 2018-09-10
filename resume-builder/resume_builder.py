@@ -27,7 +27,7 @@ import contact_widget
 import contact_lib
 import importer_lib
 import import_json
-
+import os,sys,time
 class logic(QtWidgets.QMainWindow,resume_ui.Ui_MainWindow,empl.emp,school_widget.Ui_school,school_lib.school,certifications_widget.Ui_certs,certifications_lib.certs,skills_widget.Ui_skills,skills_lib.skills,additional_info_widget.Ui_additional_info,additional_info_lib.ai,links_widget.Ui_links,links_lib.links,references_widget.Ui_references,references_lib.ref,gen_lib.gen,contact_widget.Ui_contact,contact_lib.contact,importer_lib.importer,import_json.get_json):
     def __init__(self):
         super(self.__class__,self).__init__()
@@ -116,7 +116,8 @@ Other'''.split('\n')
         self.groupBox_ref=None
         self.counted={}
         self.dFormat='MMMM d, yyyy'
-
+        self.logfile=os.path.join(os.environ['HOME'],'.resumeBuilder.log')
+        self.clearLog()
         self.setupUi(self)
         #self.contact_combobox()
         self.next()
@@ -139,6 +140,14 @@ Other'''.split('\n')
         #self.contact_tab_orders()
         #self.contact_phone_check()
         #self.contact_invalidUntilFilled()
+
+    def clearLog(self):
+        with open(self.logfile,'wb') as log:
+            log.write(b'')
+
+    def logger(self,msg):
+        with open(self.logfile,'ab') as log:
+            log.write('{} # {}\n'.format(time.ctime(),msg).encode())
 
     def invalidUntilFilled(self,qtype,widget):
         if qtype == 'le':
