@@ -42,7 +42,3 @@ once more resume/references templates have been created, create template manager
 add a dialog popup to indicate missing fields in resume.json and in xml docs
 	add information not missing,
 	missing information will be substituted with a blank value
-
-during import of data check for missing fields, log the missing field, substitute missing data
-	json[complete]
-	xml[pending]
