@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 from PyQt5 import QtWidgets,QtGui,QtCore
+from PyQt5.QtWidgets import QMessageBox
 import time,json
 import os,sys
 sys.path.insert(0,'./lib')
@@ -10,6 +11,7 @@ import string
 #sys.path.insert(0,'./resume-builder-templates/lib')
 class gen:
     compiledData={}
+    prefix='first_last'
     def gen_compile_data(self):
         #call this function when any buttons on gen tab are used,
         #save for the previous button
@@ -25,6 +27,8 @@ class gen:
                 'references':self.ref_data
                 }
         self.compiledData=compiledData
+        if compiledData['contact'] != {}:
+            self.prefix='{}_{}'.format(compiledData['contact']['fname'],compiledData['contact']['lname'])
         print(self.compiledData)
 
     def mkPath(self,fname):
@@ -46,39 +50,21 @@ class gen:
         path=self.mkPath(fname)
         fnameDialog=['']
         while fnameDialog[0] == '':
-            fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format(default,ext)),filter='{0} Files(*.{0})'.format(ext))
-            '''
-            for char in string.whitespace:
-                text=os.path.basename(fnameDialog[0]).split(char)
-                print('<><>:',text)
-                count=0
-                check=len(text)
-                for x in text:
-                    print(x)
-                    if x == '':
-                        count+=1
-
-                if count == check:
-                    fnameDialog=['']
-                    break
-                second=string.ascii_letters+string.digits+string.punctuation
-                count=0
-                check=len(second)
-                for char in second:
-                    if char not in os.path.basename(fnameDialog[0]):
-                        count+=1
-                print(count,check)
-                if count == check:
-                    fnameDialog=['']
-                    break
-            '''
+            fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format('{}-{}'.format(self.prefix,default),ext)),filter='{0} Files(*.{0})'.format(ext))
             if fnameDialog != ('',''):
-                fnameDialog=self.verifyFname(fnameDialog)
+                fnameDialog=self.verifyFname(fnameDialog) 
+                if fnameDialog[0] == '':
+                    errorDialog=QtWidgets.QErrorMessage()
+                    errorDialog.showMessage('Invalid File Name!')
             else:
                 break
+        #force extension
+        if os.path.splitext(fnameDialog[0])[1] == '':
+            fnameDialog=['{}.{}'.format(fnameDialog[0],ext),fnameDialog[1]]
+        
         if fnameDialog[0] != '':
             self.save.setText(fnameDialog[0])
-        print(fname,fnameDialog[0])
+
         if data != None:
             if fnameDialog[0] != '':
                 with open(fnameDialog[0],'wb') as ofile:
@@ -115,9 +101,9 @@ class gen:
         pdf=pdf_lib.pdf()
         pdf.compiledData=self.compiledData
         if doc == 'resume':
-            pdf.resumePDF=self.getFName('pdf','resume-default',returnName=True)
+            pdf.resumePDF=self.getFName('pdf','resume',returnName=True)
         elif doc == 'references':
-            pdf.referencesPDF=self.getFName('pdf','references-default',returnName=True)
+            pdf.referencesPDF=self.getFName('pdf','references',returnName=True)
 
         if pdf.referencesPDF != '' and doc == 'references':
             pdf.mkDoc(doc,self.statusBar())
@@ -130,12 +116,12 @@ class gen:
         xmlGen.master=self.compiledData
         docs=xmlGen.mkDocs()
         if doc == 'resume':
-            self.getFName('xml','default-resume',lxml.etree.tostring(docs[0]))
+            self.getFName('xml','resume',lxml.etree.tostring(docs[0]))
         elif doc == 'references':
             ref=docs[1]
             if docs[1] != None:
                 ref=lxml.etree.tostring(docs[1])
-                self.getFName('xml','default-references',ref)
+                self.getFName('xml','references',ref)
             else:
                 msg="Missing information required to make references doc"
                 print(msg)
@@ -146,7 +132,7 @@ class gen:
     def gen_json(self):
         self.gen_compile_data()
         jsonData=json.dumps(self.compiledData)
-        fname=self.getFName('json','default-all',jsonData.encode())
+        fname=self.getFName('json','all',jsonData.encode())
 
     def gen_set_tab_orders(self):
         tabChains=[

@@ -34,16 +34,6 @@ create icons for resumeBuilder
 
 add 'about menu' to menu bar to display program information
 create a depency list
-create alternative reportlab templates for both documents
+#create alternative reportlab templates for both documents
 
-once more resume/references templates have been created, create template manager tab
-
-
-add a dialog popup to indicate missing fields in resume.json and in xml docs
-	add information not missing,
-	missing information will be substituted with a blank value
-
-during import of data check for missing fields, log the missing field, substitute missing data
-	json[complete]
-	xml[pending]
-		additional info completed
+#make dialog box for when user attempts to use invalid chars for filenames

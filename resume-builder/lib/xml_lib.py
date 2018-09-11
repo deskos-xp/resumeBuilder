@@ -44,7 +44,7 @@ class data:
                             sub=lxml.etree.SubElement(contact,key)
                             sub.text=xmlPre[key]
 
-                print(lxml.etree.tostring(contact))
+                #print(lxml.etree.tostring(contact))
                 return contact
 
     def employment(self):
@@ -74,7 +74,7 @@ class data:
                     for key_1 in emp.keys():
                         sub=lxml.etree.SubElement(employer,key_1)
                         sub.text=emp[key_1]
-                print(lxml.etree.tostring(workXp))
+                #print(lxml.etree.tostring(workXp))
                 return workXp
 
     def education(self):
@@ -96,7 +96,7 @@ class data:
                     for key in schoolInfo.keys():
                         sub=lxml.etree.SubElement(ed,key)
                         sub.text=schoolInfo[key]
-                print(lxml.etree.tostring(edu))
+                #print(lxml.etree.tostring(edu))
                 return edu
                     ###pause
     def links(self):
@@ -107,7 +107,7 @@ class data:
                 for num,key in enumerate(data.keys()):
                     link=lxml.etree.SubElement(linkXml,'link',num=str(num))
                     link.text=data[key]['link']
-                print(lxml.etree.tostring(linkXml))
+                #print(lxml.etree.tostring(linkXml))
                 return linkXml
 
     def skills(self):
@@ -119,7 +119,7 @@ class data:
                     skill=lxml.etree.SubElement(skillXml,'skill',num=str(num))
                     skill.text='{} ({})'.format(data[key]['name'],data[key]['date'])
 
-                print('\033[1;31;40mskill\033[1;40;m',lxml.etree.tostring(skillXml))
+                #print('\033[1;31;40mskill\033[1;40;m',lxml.etree.tostring(skillXml))
                 return skillXml
 
     def additional_info(self):
@@ -130,7 +130,7 @@ class data:
                 for num,key in enumerate(data.keys()):
                     xmlLine=lxml.etree.SubElement(aiXml,'line',num=str(num),type=data[key]['type'])
                     xmlLine.text=data[key]['line']
-                print(lxml.etree.tostring(aiXml))
+                #print(lxml.etree.tostring(aiXml))
                 return aiXml
 
 
@@ -150,8 +150,9 @@ class data:
                     for key in certInfo.keys():
                         sub=lxml.etree.SubElement(cert,key)
                         sub.text=certInfo[key]
-                print(lxml.etree.tostring(certsXml))
+                #print(lxml.etree.tostring(certsXml))
                 return certsXml
+
     def mkReferences(self):
         if self.master not in self.failedStates:
             if self.master['references'] not in self.failedStates:
@@ -164,7 +165,7 @@ class data:
 
                 for num,key in enumerate(data.keys()):
                     ref=data[key]
-                    reference=lxml.etree.SubElement(refXml,'employer',name=ref['employer'])
+                    reference=lxml.etree.SubElement(refXml,'employer',name=ref['employer'],num=str(num))
                     refInfo={
                             'street_address':'',
                             'city':'',
@@ -176,13 +177,13 @@ class data:
                     refInfo['state']=ref['state']
                     refInfo['zip']=ref['zip']
                     for key_1 in refInfo.keys():
-                        print(key_1)
+                        #print(key_1)
                         sub=lxml.etree.SubElement(reference,key_1)
                         sub.text=refInfo[key_1]
 
                     sub=lxml.etree.SubElement(reference,'phone',email=data[key]['email'],owner='{} {} {}'.format(data[key]['fname'],data[key]['mname'],data[key]['lname']),title=data[key]['title'],type=ref['type'])
                     sub.text=ref['phone']
-                print('#pre-ref#',lxml.etree.tostring(refXml))
+                #print('#pre-ref#',lxml.etree.tostring(refXml))
                 return refXml
 
     def mkDocs(self):

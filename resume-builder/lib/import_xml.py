@@ -115,7 +115,12 @@ class get_xml:
                 'zip':'',
                 'type':'',
                 }
-                data[key]['employer']=child.attrib['name']
+                
+                if 'name' in child.attrib.keys():
+                    data[key]['employer']=child.attrib['name']
+                else:
+                    data[key]['employer']=''
+
                 for subChild in child:
                     if subChild.tag == 'street_address':
                         data[key]['street']=subChild.text
@@ -133,7 +138,10 @@ class get_xml:
                         data[key]['mname']=name[1]
                         data[key]['lname']=name[2]
                         data[key]['title']=subChild.attrib['title']
-                        data[key]['type']=subChild.attrib['type']
+                        if 'type' in subChild.attrib.keys():
+                            data[key]['type']=subChild.attrib['type']
+                        else:
+                            data[key]['type']='Phone Type'
                 counter+=1
         return data
     def breakDate(self,date):
@@ -201,7 +209,11 @@ class get_xml:
                         'endDate':'',
                         'degree':''
                             }
-                    data[str(num)]['type']=school.attrib['type']
+                    if 'type' in school.attrib.keys():
+                        data[str(num)]['type']=school.attrib['type']
+                    else:
+                        data[str(num)]['type']='Basic School Types'
+
                     for f in school:
                         if f.tag == 'degree':
                             data[str(num)]['degree']=f.text
