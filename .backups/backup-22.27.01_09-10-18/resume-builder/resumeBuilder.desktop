@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=ResumeBuilder
+Comment=Build a Resume
+Icon=resume-builder
+Exec=/usr/bin/bash /opt/resume-builder/resume-builder.sh
+Terminal=True
+Categories=Qt;Documentation;Office

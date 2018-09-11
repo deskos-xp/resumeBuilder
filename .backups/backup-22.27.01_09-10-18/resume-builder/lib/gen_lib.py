@@ -56,13 +56,12 @@ class gen:
                 if fnameDialog[0] == '':
                     errorDialog=QtWidgets.QErrorMessage()
                     errorDialog.showMessage('Invalid File Name!')
-                else:
-                    if os.path.splitext(fnameDialog[0])[1] == '':
-                        fnameDialog=['{}.{}'.format(fnameDialog[0],ext),fnameDialog[1]]
             else:
                 break
         #force extension
-                
+        if os.path.splitext(fnameDialog[0])[1] == '':
+            fnameDialog=['{}.{}'.format(fnameDialog[0],ext),fnameDialog[1]]
+        
         if fnameDialog[0] != '':
             self.save.setText(fnameDialog[0])
 
