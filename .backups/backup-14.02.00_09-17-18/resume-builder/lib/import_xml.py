@@ -289,7 +289,15 @@ class get_xml:
                                 data[str(num)][attrib]=skill.attrib[attrib]
                             else:
                                 data[str(num)][attrib]=''
-                        data[str(num)]['skill']=skill.text 
+                        data[str(num)]['skill']=skill.text
+                        '''
+                        res=self.breakSkill(skill.text)
+                        
+                        data[str(num)]['skill']=res[0]
+                        data[str(num)]['months']=res[1]
+                        data[str(num)]['years']=res[2]
+                        data[str(num)]['grade']=res[3]
+                        '''
         return data
 
     def resumeGetLink(self,root):
