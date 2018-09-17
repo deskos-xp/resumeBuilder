@@ -338,12 +338,19 @@ class get_xml:
                             'months':'',
                             'grade':'',
                             }
+                    for attrib in ['years','months','grade']:
+                        if attrib in skill.attrib.keys():
+                            data[str(num)][attrib]=skill.attrib[attrib]
+                        else:
+                            data[str(num)][attrib]=''
+                    data[str(num)]['skill']=skill.text
+                    '''
                     sk=self.breakSkill(skill.text)
                     data[str(num)]['skill']=sk[0]
                     data[str(num)]['years']=sk[2]
                     data[str(num)]['months']=sk[1]
                     data[str(num)]['grade']=sk[3]
-
+                    '''
         return data
         #print(self.data['skills'])
 

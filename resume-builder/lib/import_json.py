@@ -103,14 +103,16 @@ class get_json:
         x=import_xml.get_xml()
         d={'skills':doc['skills']}
         d=self.checkFields(['name','date'],'skills',d)
-        
+         
         for i in d['skills'].keys():    
-            skillString='{} ({})'.format(d['skills'][i]['name'],d['skills'][i]['date'])
-            skill=x.breakSkill(skillString)
-            d['skills'][i]['grade']=skill[3]
-            d['skills'][i]['months']=skill[1]
-            d['skills'][i]['years']=skill[2]
-            d['skills'][i]['skill']=skill[0]
+            d['skills'][i]['skill']=d['skills'][i]['name']
+            #skillString='{} ({})'.format(d['skills'][i]['name'],d['skills'][i]['date'])
+            
+            #skill=x.breakSkill(skillString)
+            #d['skills'][i]['grade']=d[ski
+            #d['skills'][i]['months']=skill[1]
+            #d['skills'][i]['years']=skill[2]
+            #d['skills'][i]['skill']=skill[0]
             d['skills'][i].pop('name')
         self.resumeGetSkill(d)
 

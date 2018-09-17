@@ -116,8 +116,8 @@ class data:
                 data=self.master['skills']
                 skillXml=lxml.etree.Element('skills',tag='Skills')
                 for num,key in enumerate(data.keys()):
-                    skill=lxml.etree.SubElement(skillXml,'skill',num=str(num))
-                    skill.text='{} ({})'.format(data[key]['name'],data[key]['date'])
+                    skill=lxml.etree.SubElement(skillXml,'skill',num=str(num),months=str(data[key]['months']),years=str(data[key]['years']),grade=data[key]['grade'])
+                    skill.text='{}'.format(data[key]['name'])
 
                 #print('\033[1;31;40mskill\033[1;40;m',lxml.etree.tostring(skillXml))
                 return skillXml

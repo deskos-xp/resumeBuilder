@@ -284,12 +284,20 @@ class get_xml:
                                 'years':'',
                                 'grade':'',
                                 }
+                        for attrib in ['years','months','grade']:
+                            if attrib in skill.attrib.keys():
+                                data[str(num)][attrib]=skill.attrib[attrib]
+                            else:
+                                data[str(num)][attrib]=''
+                        data[str(num)]['skill']=skill.text
+                        '''
                         res=self.breakSkill(skill.text)
                         
                         data[str(num)]['skill']=res[0]
                         data[str(num)]['months']=res[1]
                         data[str(num)]['years']=res[2]
                         data[str(num)]['grade']=res[3]
+                        '''
         return data
 
     def resumeGetLink(self,root):

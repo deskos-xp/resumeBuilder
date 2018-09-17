@@ -41,6 +41,9 @@ class skills:
                 e=self.groupBox_skill[group][1]
                 data[group]['name']=e.name.text()
                 data[group]['date']=e.dateString.text()
+                data[group]['grade']=data[group]['date'][0]
+                data[group]['years']=e.years.value()
+                data[group]['months']=e.months.value()
         self.skill_data=data
         print(data)
 
