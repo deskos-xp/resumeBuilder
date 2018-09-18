@@ -72,9 +72,8 @@ class pdf:
                 build.resumePDF=self.resumePDF
                 build.resumeXML=path
                 res=build.tasks()
-                if self.statusBar != None:
-                    if res == False:
-                        self.statusBar().showMessage('Error entry too big! resume PDF was not created!')
+                if res == False:
+                    self.statusBar().showMessage('Error entry too big! resume PDF was not created!')
                 '''
                 build=createpdf2.gen()
                 build.docPath=self.docPath
