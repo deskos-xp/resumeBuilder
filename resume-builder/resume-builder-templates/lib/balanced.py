@@ -778,7 +778,14 @@ class resumeGen:
         canvas.drawString(letter[0]-50,letter[1]-(letter[1]-20),text)
 
     def build(self):
-        self.docP.build(self.story,onFirstPage=self.pageNum,onLaterPages=self.pageNum)
+        try:
+            self.docP.build(self.story,onFirstPage=self.pageNum,onLaterPages=self.pageNum)
+            return True
+        except Exception as e:
+            err=sys.exc_info()[0]
+            if err == reportlab.platypus.doctemplate.LayoutError:
+                print('check your entries! not all entries will fit together!: "{}"'.format(e))
+            return False
     
     def tasks(self):
         state=self.mkResume()
@@ -821,7 +828,7 @@ class resumeGen:
             for i in content:
                 if i != None:
                     self.story.append(i)
-            self.build()
+            return self.build()
         else:
             print('could not make document')
 

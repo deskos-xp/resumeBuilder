@@ -100,6 +100,7 @@ class gen:
     def gen_pdf(self,doc):
         self.gen_compile_data()
         pdf=pdf_lib.pdf()
+        pdf.statusBar=self.statusBar
         pdf.compiledData=self.compiledData
         if doc == 'resume':
             pdf.resumePDF=self.getFName('pdf','resume',returnName=True)

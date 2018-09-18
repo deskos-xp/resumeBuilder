@@ -241,6 +241,7 @@ class importer:
             self.resumeGetLink(resumeFields)
             self.resumeGetAi(resumeFields)
             self.gen_compile_data()
+            self.statusBar().showMessage('Ready!')
         else:
             print("user hit cancel, most likely!")
     
@@ -272,6 +273,7 @@ class importer:
             b.phoneType.setCurrentText(referencesEmp[ref]['type'])
         self.ref_submit()
         self.gen_compile_data()
+        self.statusBar().showMessage('Ready!')
 
     def getRefData(self):
         x=import_xml.get_xml()

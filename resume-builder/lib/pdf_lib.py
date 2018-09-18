@@ -9,6 +9,7 @@ sys.path.insert(0,'./resume-builder-templates/lib')
 import balanced
 import balanced_references
 class pdf:
+    statusBar=None
     tmpdir='./tmp'
     tmpRefXml='reference-tmp.xml'
     tmpResXml='resume-tmp.xml'
@@ -70,7 +71,9 @@ class pdf:
                 build=balanced.resumeGen()
                 build.resumePDF=self.resumePDF
                 build.resumeXML=path
-                build.tasks()
+                res=build.tasks()
+                if res == False:
+                    self.statusBar().showMessage('Error entry too big! resume PDF was not created!')
                 '''
                 build=createpdf2.gen()
                 build.docPath=self.docPath
