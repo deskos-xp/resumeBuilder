@@ -16,4 +16,3 @@ qt5-tools
 qt5-x11extras
 python-lxml
 python-reportlab
-ttf-ms-fonts
