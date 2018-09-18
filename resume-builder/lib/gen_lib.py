@@ -7,7 +7,7 @@ sys.path.insert(0,'./lib')
 import xml_lib
 import pdf_lib
 import lxml.etree
-import string
+import string,binascii,base64
 #sys.path.insert(0,'./resume-builder-templates/lib')
 class gen:
     compiledData={}
@@ -45,17 +45,36 @@ class gen:
             path=path=os.environ['HOME']
         return path
 
+    def err_dialog(self,fname):
+        errorDialog=QtWidgets.QMessageBox()
+        errorDialog.setInformativeText('Invalid File Name!')
+        errorDialog.setWindowTitle('Error!')
+        errorDialog.setDetailedText('Invalid File Name! File Name cannot be {}'.format(fname.encode()))
+        
+        errorDialog.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        errorDialog.buttonClicked.connect(self.err_dialog_action)
+        val=errorDialog.exec_()
+
+    def err_dialog_action(self,d):
+        res=d.text()
+        if res == 'OK':
+            self.pausefm=False
+
     def getFName(self,ext,default,data=None,returnName=False):
         fname=self.save.text()
         path=self.mkPath(fname)
         fnameDialog=['']
+        self.pausefm=False
         while fnameDialog[0] == '':
-            fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format('{}-{}'.format(self.prefix,default),ext)),filter='{0} Files(*.{0})'.format(ext))
+            accepted=0
+            if self.pausefm == False:
+                fnameDialog=QtWidgets.QFileDialog.getSaveFileName(self,'Save as {}'.format(ext),os.path.join(path,'{}.{}'.format('{}-{}'.format(self.prefix,default),ext)),filter='{0} Files(*.{0})'.format(ext))
             if fnameDialog != ('',''):
+                fname=os.path.basename(fnameDialog[0])
                 fnameDialog=self.verifyFname(fnameDialog) 
                 if fnameDialog[0] == '':
-                    errorDialog=QtWidgets.QErrorMessage()
-                    errorDialog.showMessage('Invalid File Name!')
+                    self.pausefm=True
+                    self.err_dialog(fname)
                 else:
                     if os.path.splitext(fnameDialog[0])[1] == '':
                         fnameDialog=['{}.{}'.format(fnameDialog[0],ext),fnameDialog[1]]
