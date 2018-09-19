@@ -12,9 +12,7 @@ for doc in ${extras[@]} ; do
 		cp $doc .backups/backup-$d
 	fi
 done
-if test -e '/usr/bin/tree' ; then
-	tree .backups/backup-$d
-fi
+tree .backups/backup-$d
 
 cd ..
 
