@@ -256,6 +256,8 @@ class importer:
     def getReferences(self,referencesEmp):
         self.bar('References')
         print(referencesEmp)
+        if referencesEmp == None:
+            return
         for num,ref in enumerate(referencesEmp.keys()):
             self.newRef()
             b=self.groupBox_ref[str(num)][1]

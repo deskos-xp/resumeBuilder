@@ -95,55 +95,61 @@ class get_xml:
         return data
 
     def referencesEmployer(self,root):
-        data={}
-        counter=0
-        for child in root: 
-            if child.tag == 'employer':
-                tm=time.localtime()
-                key='{}:{}:{}:Ref_{}'.format(tm.tm_hour,tm.tm_min,tm.tm_sec,counter)
-                data[key]={
-                'employer':'',
-                'title':'',
-                'fname':'',
-                'mname':'',
-                'lname':'',
-                'phone':'',
-                'email':'',
-                'street':'',
-                'city':'',
-                'state':'',
-                'zip':'',
-                'type':'',
-                }
+        try:
+            data={}
+            counter=0
+            for child in root: 
+                if child.tag == 'employer':
+                    tm=time.localtime()
+                    key='{}:{}:{}:Ref_{}'.format(tm.tm_hour,tm.tm_min,tm.tm_sec,counter)
+                    data[key]={
+                    'employer':'',
+                    'title':'',
+                    'fname':'',
+                    'mname':'',
+                    'lname':'',
+                    'phone':'',
+                    'email':'',
+                    'street':'',
+                    'city':'',
+                    'state':'',
+                    'zip':'',
+                    'type':'',
+                    }
                 
-                if 'name' in child.attrib.keys():
-                    data[key]['employer']=child.attrib['name']
-                else:
-                    data[key]['employer']=''
+                    if 'name' in child.attrib.keys():
+                        data[key]['employer']=child.attrib['name']
+                    else:
+                        data[key]['employer']=''
 
-                for subChild in child:
-                    if subChild.tag == 'street_address':
-                        data[key]['street']=subChild.text
-                    if subChild.tag == 'city':
-                        data[key]['city']=subChild.text
-                    if subChild.tag == 'zip':
-                        data[key]['zip']=subChild.text
-                    if subChild.tag == 'state':
-                        data[key]['state']=subChild.text
-                    if subChild.tag == 'phone':
-                        data[key]['phone']=subChild.text
-                        data[key]['email']=subChild.attrib['email']
-                        name=self.breakName(subChild.attrib['owner'])
-                        data[key]['fname']=name[0]
-                        data[key]['mname']=name[1]
-                        data[key]['lname']=name[2]
-                        data[key]['title']=subChild.attrib['title']
-                        if 'type' in subChild.attrib.keys():
-                            data[key]['type']=subChild.attrib['type']
-                        else:
-                            data[key]['type']='Phone Type'
-                counter+=1
-        return data
+                    for subChild in child:
+                        if subChild.tag == 'street_address':
+                            data[key]['street']=subChild.text
+                        if subChild.tag == 'city':
+                            data[key]['city']=subChild.text
+                        if subChild.tag == 'zip':
+                            data[key]['zip']=subChild.text
+                        if subChild.tag == 'state':
+                            data[key]['state']=subChild.text
+                        if subChild.tag == 'phone':
+                            data[key]['phone']=subChild.text
+                            if 'email' in subChild.attrib.keys():
+                                data[key]['email']=subChild.attrib['email']
+                            name=self.breakName(subChild.attrib['owner'])
+                            data[key]['fname']=name[0]
+                            data[key]['mname']=name[1]
+                            data[key]['lname']=name[2]
+                            if 'title' in subChild.attrib.keys():
+                                data[key]['title']=subChild.attrib['title']
+                            if 'type' in subChild.attrib.keys():
+                                data[key]['type']=subChild.attrib['type']
+                            else:
+                                data[key]['type']='Phone Type'
+                    counter+=1
+            return data
+        except Exception as e:
+            print(e)
+            print("it seems there was a bad import... please try again!")
     def breakDate(self,date):
         date=date.split(' to ')
         return date
