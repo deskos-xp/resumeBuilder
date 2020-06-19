@@ -5,8 +5,51 @@ def prep_table(table):
     table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
 
+def reference():
+    return dict(
+        employer="",
+        title="",
+        first_name="",
+        middle_name="",
+        last_name="",
+        phone_number="",
+        phone_type="",
+        email="",
+        street_name="",
+        street_number="",
+        city="",
+        state="",
+        ZIP=""
+    )
+
+
 def phoneTypes():
     return ["Cell","Home","Work"]
+
+
+def certification():
+    return dict(
+        certification_name="",
+        date_acquired="",
+        date_expires=""
+        )
+def AdditionalInfoTypes():
+    return [
+        'activities',
+        'awards',
+        'hobbies',
+        'object',
+        'other'
+        ]
+
+def additionalInfo():
+    return dict(
+        additional_info="",
+        type=""
+    )
+
+def links():
+    return dict(link="")
 
 def education():
     school=dict(
@@ -37,7 +80,7 @@ def employment():
         state="",
         ZIP="")
 
-def you():
+def contact():
     return dict(
         first_name="",
         middle_name="",

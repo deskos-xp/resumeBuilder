@@ -2,29 +2,52 @@ from PyQt5 import uic
 from PyQt5.QtCore import QRunnable,QObject,QThread,QThreadPool
 from PyQt5.QtWidgets import QApplication,QMainWindow
 from .MainWindow.TableModel import TableModel
-from .You.You import You
+from .Contact.Contact import Contact
 from .Employment.Employment import Employment
 from .Education.Education import Education
 from .MenuBar.MenuBar import MenuBar
+from .Certification.Certification import Certification
+from .Links.Links import Links
+from .AdditionalInfo.AdditionalInfo import AdditionalInfo
+from .References.References import References
+from .Json.Json import Json
+from copy import deepcopy
+
 class Main(QMainWindow):
     def __init__(self):
         super(Main,self).__init__()
         uic.loadUi("app/MainWindow/forms/app.ui",self)
         self.tabs={}
-        self.tabs['you']=You(self)
+        self.tabs['contact']=Contact(self)
         self.tabs['employment']=Employment(self)
         self.tabs['education']=Education(self)
-        self.submit.clicked.connect(self.saveData)
-        
+        self.tabs['certification']=Certification(self)
+        self.tabs['links']=Links(self)
+        self.tabs['additionalInfo']=AdditionalInfo(self)
+        self.tabs['references']=References(self)
+
+        self.submit_json.clicked.connect(self.saveData)
+        self.submit_resume.clicked.connect(self.saveData)
+        self.submit_references.clicked.connect(self.saveData)
+
+        self.j=Json(self)        
         self.mb=MenuBar(self)
 
     def saveData(self):
+        data={}
         for i in self.tabs.keys():
-            if i in ['employment','education']:
+            if i in ['employment','education','certification','links','additionalInfo','references']:
+                data[i]=[]
                 for model in self.tabs[i].models:
-                    print(model.item)
+                    data[i].append(deepcopy(model.item))
+                    #print(model.item)
             else:
-                print(self.tabs.get(i).model.item)
+                data[i]=deepcopy(self.tabs.get(i).model.item)
+                #print(self.tabs.get(i).model.item)
+        name=self.sender().objectName()
+        print(name)
+        if name == "submit_json":
+            self.j.setData(data)
 
 def main(*args):
     app=QApplication(list(args))

@@ -24,20 +24,21 @@ class Employment:
             self.parent.employmentGrid.removeWidget(wid)
             wid.deleteLater()
          
-        uic.loadUi("app/Employment/forms/employment.ui",wid)
+        uic.loadUi("app/MainWindow/forms/entry.ui",wid)
         self.views.append(wid)
-        wid.employmentView.setModel(emp)
-        wid.clear_employer.clicked.connect(clear)
-        wid.remove_employer.clicked.connect(remove)
-        prep_table(wid.employmentView)
+        wid.view.setModel(emp)
+        wid.groupBox.setTitle(__name__.split(".")[-1])
+        wid.clear.clicked.connect(clear)
+        wid.remove.clicked.connect(remove)
+        prep_table(wid.view)
         for num,i in enumerate(employment().keys()):
             if i.lower() == "state":
-                wid.employmentView.setItemDelegateForRow(num,ComboBoxDelegate(wid,states()))
+                wid.view.setItemDelegateForRow(num,ComboBoxDelegate(wid,states()))
             if i.lower() == "present":
-                wid.employmentView.setItemDelegateForRow(num,CheckBoxDelegate(wid,state=False))
+                wid.view.setItemDelegateForRow(num,CheckBoxDelegate(wid,state=False))
             if i.lower() in ['start_date','end_date']:
-                wid.employmentView.setItemDelegateForRow(num,DateEditDelegate(wid))
+                wid.view.setItemDelegateForRow(num,DateEditDelegate(wid))
             if i.lower() in ['duties']:
-                wid.employmentView.setItemDelegateForRow(num,TextEditDelegate(wid))
+                wid.view.setItemDelegateForRow(num,TextEditDelegate(wid))
 
         self.parent.employmentGrid.addWidget(wid,self.parent.employmentGrid.count(),0,1,1)

@@ -20,9 +20,10 @@ class Education:
         self.models.append(emp)
         self.views.append(wid)
 
-        uic.loadUi("app/Education/forms/education.ui",wid)
-        wid.educationView.setModel(emp)
-        prep_table(wid.educationView)
+        uic.loadUi("app/MainWindow/forms/entry.ui",wid)
+        wid.view.setModel(emp)
+        wid.groupBox.setTitle(__name__.split(".")[-1])
+        prep_table(wid.view)
         def clear():
             emp.load_data(education(),re=True)
             
@@ -32,17 +33,17 @@ class Education:
             self.parent.educationGrid.removeWidget(wid)
             wid.deleteLater()
 
-        wid.remove_education.clicked.connect(remove)
-        wid.clear_education.clicked.connect(clear)
+        wid.remove.clicked.connect(remove)
+        wid.clear.clicked.connect(clear)
         
         for num,i in enumerate(education().keys()):
             if i.lower() in ['start_date','end_date']:
-                wid.educationView.setItemDelegateForRow(num,DateEditDelegate(wid))
+                wid.view.setItemDelegateForRow(num,DateEditDelegate(wid))
             if i.lower() in ['present']:
-                wid.educationView.setItemDelegateForRow(num,CheckBoxDelegate(wid))
+                wid.view.setItemDelegateForRow(num,CheckBoxDelegate(wid))
             if i.lower() in ['state']:
-                wid.educationView.setItemDelegateForRow(num,ComboBoxDelegate(wid,states()))
+                wid.view.setItemDelegateForRow(num,ComboBoxDelegate(wid,states()))
             if i.lower() in ['school_type']:
-                wid.educationView.setItemDelegateForRow(num,ComboBoxDelegate(wid,schoolTypes()))
+                wid.view.setItemDelegateForRow(num,ComboBoxDelegate(wid,schoolTypes()))
 
         self.parent.educationGrid.addWidget(wid,self.parent.educationGrid.count(),0,1,1)
