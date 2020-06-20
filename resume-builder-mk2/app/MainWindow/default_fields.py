@@ -68,6 +68,8 @@ def education():
 def schoolTypes():
     return ['School Types','High School','2 Year College','4 Year College','Trade School','Other']
 
+default_pdf="./default.pdf"
+
 def employment():
     return dict(
         employer="",
