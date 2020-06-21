@@ -1,7 +1,37 @@
 from PyQt5.QtCore import Qt,pyqtSlot,QDate
-from PyQt5.QtWidgets import QHeaderView,QItemDelegate,QComboBox,QCheckBox,QDateEdit,QTextEdit
+from PyQt5.QtWidgets import QHeaderView,QItemDelegate,QComboBox,QCheckBox,QDateEdit,QTextEdit,QLineEdit
 import time
+import phonenumbers
 
+class PhoneTextEditDelegate(QItemDelegate):
+    def __init__(self,parent):
+        QItemDelegate.__init__(self,parent)
+        self.formatted=""
+
+    def createEditor(self,parent,option,index):
+        date=QLineEdit(parent) 
+        def formatter():
+            try:
+                self.formatted=phonenumbers.format_number(phonenumbers.parse(self.sender().text(),"US"),phonenumbers.PhoneNumberFormat.NATIONAL)
+                #print(self.formatted)
+            except Exception as e:
+                print(e)
+        date.textChanged.connect(formatter)
+        return date
+
+    def setEditorData(self,editor,index):
+        editor.blockSignals(True)
+        #editor.setText(index.model().data(index)) 
+        editor.setText(self.formatted)
+        editor.blockSignals(False)
+
+    def setModelData(self,editor,model,index):
+        model.setData(index,self.formatted,Qt.EditRole)
+    
+    @pyqtSlot()
+    def currentIndexChanged(self):
+        self.commitData.emit(self.sender())
+ 
 class TextEditDelegate(QItemDelegate):
     def __init__(self,parent):
         QItemDelegate.__init__(self,parent)

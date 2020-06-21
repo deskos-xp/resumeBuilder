@@ -40,7 +40,8 @@ class References:
                 wid.view.setItemDelegateForRow(num,ComboBoxDelegate(wid,phoneTypes()))
             if i.lower() in ['email']:
                 wid.view.setItemDelegateForRow(num,TextEditDelegate(wid))
-            
+            if i.lower() in ['phone_number']:
+                wid.view.setItemDelegateForRow(num,PhoneTextEditDelegate(wid))
 
         self.parent.referencesGrid.addWidget(wid,self.parent.referencesGrid.count(),0,1,1)
 
