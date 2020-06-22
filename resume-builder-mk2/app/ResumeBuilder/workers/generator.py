@@ -12,6 +12,8 @@ class generator:
         self.styles=getSampleStyleSheet()
 
         self.ulx=ParagraphStyle('N8',self.styles['Normal'],fontSize=8)
+        self.hc2=ParagraphStyle('HC2',self.styles['Heading2'],alignment=TA_CENTER)
+        self.hr=HRFlowable(width='98%')
         self.flowables=[]
         self.flowables.extend(genHeader(contact).generate())
         self.handleEmployment()
@@ -28,8 +30,8 @@ class generator:
     def handleEmployment(self):
         lEmployment=self.data.get("employment")
         if len(lEmployment) > 0:
-            self.flowables.append(Paragraph("Employment",ParagraphStyle('HC2',self.styles['Heading2'],alignment=TA_CENTER)))
-            self.flowables.append(HRFlowable(width='98%'))
+            self.flowables.append(Paragraph("Employment",self.hc2))
+            self.flowables.append(self.hr)
         for e in lEmployment:
             print(e)
             employer_line="{title} ({employer})".format(
@@ -64,20 +66,71 @@ class generator:
             #self.flowables.append(ListFlowable(listed))
 
         if len(lEmployment) > 0:
-            self.flowables.append(HRFlowable(width='98%'))
+            self.flowables.append(self.hr)
 
                     
 
 
     def handleEducation(self):
-        pass
+        lEducation = self.data.get("education")
+        if len(lEducation) > 0:
+            self.flowables.append(Paragraph("Education",self.hc2))
+            self.flowables.append(self.hr)
+        for e in lEducation:
+            schoolDegree="{degree} ({school})"
+            dateline="{start} - {end}"
+            locale="{city}, {state} {ZIP}"
+            
+            lsd=schoolDegree.format(**dict(degree=e.get("degree"),school=e.get("school")))
+            dl=dateline.format(**dict(start=e.get("start_date"),end=e.get("end_date")))
+            locale_l=locale.format(**dict(city=e.get("city"),state=e.get("state"),ZIP=e.get("ZIP")))
 
+            self.flowables.append(Paragraph(lsd,self.styles['Heading3']))
+            self.flowables.append(Paragraph(dl,self.styles['Normal']))
+            self.flowables.append(Paragraph(locale_l,self.styles['Italic']))
+
+        if len(lEducation) > 0:
+            self.flowables.append(self.hr)
     def handleCertification(self):
-        pass
+        lCertification=self.data.get("certification")
+        if len(lCertification) > 0:
+            self.flowables.append(Paragraph("Certification",self.hc2))
+            self.flowables.append(self.hr)
+
+        for cert in lCertification:
+            name_l="{name}".format(**dict(name=cert.get("certification_name")))
+            date_l="{start} - {end}".format(**dict(start=cert.get("date_acquired"),end=cert.get("date_expires")))
+            self.flowables.append(Paragraph(name_l,self.styles['Heading3']))
+            self.flowables.append(Paragraph(date_l,self.styles['Normal']))
+        if len(lCertification) > 0:
+            self.flowables.append(self.hr)
 
     def handleLinks(self):
-        pass
+        links=self.data.get("links")
+        if len(links) > 0:
+            self.flowables.append(Paragraph("Links",self.hc2))
+            self.flowables.append(self.hr)
+
+        for link in links:
+            self.flowables.append(Paragraph(link.get('link'),self.styles['Normal'],bulletText=" - "))
+
+        if len(links) > 0:
+            self.flowables.append(self.hr)
 
     def handleAdditionalInfo(self):
-        pass
+        lAdditionalInfo=self.data.get("additionalInfo")
+        if len(lAdditionalInfo) > 0:
+            self.flowables.append(Paragraph("Additional Info.",self.hc2))
+            self.flowables.append(self.hr)
+
+        for ai in lAdditionalInfo:
+            t="{t}".format(**dict(t=ai.get("type")))
+            if len(t) > 0:
+                t=t[0].upper()+t[1:].lower()
+            self.flowables.append(Paragraph(t,self.styles['Heading3']))
+            for line in ai.get("additional_info").split("\n"):
+                self.flowables.append(Paragraph(line,self.ulx,bulletText=" - "))
+
+        if len(lAdditionalInfo) > 0:
+            self.flowables.append(self.hr)
 
