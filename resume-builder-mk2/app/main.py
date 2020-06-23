@@ -14,6 +14,8 @@ from .Json.Json import Json
 from copy import deepcopy
 from .ReferencesBuilder.ReferencesBuilder import ReferencesBuilder
 from .ResumeBuilder.ResumeBuilder import ResumeBuilder
+from .Importer.Importer import Importer
+
 class Main(QMainWindow):
     def __init__(self):
         super(Main,self).__init__()
@@ -26,6 +28,8 @@ class Main(QMainWindow):
         self.tabs['links']=Links(self)
         self.tabs['additionalInfo']=AdditionalInfo(self)
         self.tabs['references']=References(self)
+
+        self.importer=Importer(self)
 
         self.submit_json.clicked.connect(self.saveData)
         self.submit_resume.clicked.connect(self.saveData)
