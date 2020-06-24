@@ -2,7 +2,7 @@ from PyQt5.QtCore import QObject,QThreadPool,QRunnable
 from PyQt5.QtWidgets import QWidget,QFileDialog
 from .workers.genReferences import genReferences
 from ..MainWindow.default_fields import *
-
+import os
 class ReferencesBuilder:
     def __init__(self,parent):
         self.parent=parent
@@ -24,11 +24,15 @@ class ReferencesBuilder:
         self.path=path
 
     def gen(self):
-        def deleteMe():
-            del(self.generator)
-        self.generator=genReferences(self.parent,self.contact,self.references,self.path)
-        self.generator.signals.hasError.connect(lambda x:print(x))
-        self.generator.signals.finished.connect(deleteMe)
-        QThreadPool.globalInstance().start(self.generator)
+        self.path=self.parent.references_path_pdf.text()
+        print(self.path)
+        if self.path != "":
+            if os.path.exists(os.path.split(os.path.abspath(self.path))[0]):
+                def deleteMe():
+                    del(self.generator)
+                self.generator=genReferences(self.parent,self.contact,self.references,self.path)
+                self.generator.signals.hasError.connect(lambda x:print(x))
+                self.generator.signals.finished.connect(deleteMe)
+                QThreadPool.globalInstance().start(self.generator)
 
         #print(self.contact,self.references)

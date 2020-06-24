@@ -1,14 +1,14 @@
 from PyQt5.QtCore import QThreadPool
 from .workers.genResume import genResume
 from PyQt5.QtWidgets import QFileDialog
-
+import os
 class ResumeBuilder:
     def __init__(self,parent):
         self.parent=parent
         self.data=dict()
         self.contact=dict()
         self.path=parent.resume_path_pdf.text()
-        parent.submit_resume.clicked.connect(self.gen)
+        #parent.submit_resume.clicked.connect(self.gen)
         parent.navigate_resume_pdf.clicked.connect(self.getPath)
         def setPath(text):
             self.path=text
@@ -29,5 +29,7 @@ class ResumeBuilder:
 
     def gen(self):
         self.path=self.parent.resume_path_pdf.text()
-        self.worker=genResume(self.parent,self.data,self.contact,self.path)
-        QThreadPool.globalInstance().start(self.worker)
+        if self.path != "":
+            if os.path.exists(os.path.split(os.path.abspath(self.path))[0]):
+                self.worker=genResume(self.parent,self.data,self.contact,self.path)
+                QThreadPool.globalInstance().start(self.worker)

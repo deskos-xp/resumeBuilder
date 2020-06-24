@@ -14,7 +14,10 @@ class AdditionalInfo:
         
         parent.newAdditionalInfo.clicked.connect(self.newAdditionalInfo)
 
-    def newAdditionalInfo(self,state):
+    def newAdditionalinfo(self):
+        self.newAdditionalInfo()
+
+    def newAdditionalInfo(self):
         wid=QWidget(self.parent)
         emp=TableModel(item=additionalInfo())
         self.models.append(emp)

@@ -13,7 +13,7 @@ class References:
 
         parent.newReferences.clicked.connect(self.newReferences)
 
-    def newReferences(self,state):
+    def newReferences(self):
         wid=QWidget(self.parent)
         emp=TableModel(item=reference())
         self.models.append(emp)

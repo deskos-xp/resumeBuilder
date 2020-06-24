@@ -14,7 +14,7 @@ class Certification:
         
         parent.newCertification.clicked.connect(self.newCertification)
 
-    def newCertification(self,state):
+    def newCertification(self):
         wid=QWidget(self.parent)
         
         emp=TableModel(item=certification())

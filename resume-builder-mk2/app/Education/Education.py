@@ -13,7 +13,7 @@ class Education:
 
         parent.newEducation.clicked.connect(self.newEducation)
 
-    def newEducation(self,state):
+    def newEducation(self):
         wid=QWidget(self.parent)
                 
         emp=TableModel(item=education())

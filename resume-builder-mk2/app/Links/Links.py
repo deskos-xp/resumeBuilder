@@ -12,9 +12,9 @@ class Links:
         self.parent=parent
         self.models=[]
         self.views=[]
-        parent.newLink.clicked.connect(self.newLink)
+        parent.newLink.clicked.connect(self.newLinks)
 
-    def newLink(self,state):
+    def newLinks(self):
         wid=QWidget(self.parent)
         emp=TableModel(item=links())
         self.models.append(emp)

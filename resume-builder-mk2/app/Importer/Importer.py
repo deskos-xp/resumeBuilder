@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QDialog,QWidget,QFileDialog
 import os,sys,json
 from copy import deepcopy
 from .workers.FileReader import FileReader
-
+from ..MainWindow.default_fields import *
 #need worker to read importable file
 class Importer:
     def __init__(self,parent):
@@ -18,8 +18,33 @@ class Importer:
             self.path=p[0]
 
     def store_data(self,data):
-        self.data=data
-
+        def pre_clear():
+            for k in self.parent.tabs.keys():
+                if k in ['employment','education','certification','links','additionalInfo','references']:
+                    parent=self.parent.tabs.get(k)
+                    parent.models.clear()
+                    for v in parent.views:
+                        getattr(self.parent,"{k}Grid".format(**dict(k=k))).removeWidget(v)
+                        v.deleteLater()
+                    parent.views.clear()
+                else:
+                    self.parent.tabs[k].model.load_data(contact(),re=True)
+        def load():
+            self.data=data
+            for k in data.keys():
+                if k in ['employment','education','certification','links','additionalInfo','references']:
+                    for num,i in enumerate(data.get(k)):
+                        parent=self.parent.tabs.get(k)
+                        nameUpper=k[0].upper()+k[1:].lower()
+                        name="new{name}".format(**dict(name=nameUpper))
+                        x=getattr(parent,name)
+                        x()
+                        parent.models[num].load_data(i,re=True)
+                    pass
+                else:
+                    self.parent.tabs[k].model.load_data(data.get(k),re=True)
+        pre_clear()
+        load()
     def import_data(self):
         self.getPath()
         self.reader=FileReader(self.parent,self.path)

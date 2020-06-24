@@ -1,4 +1,5 @@
 need modules to:
 	[done]generate pdf references
 	[done]generate pdf resume
-	import json resume/references and fill all fields with imported data
+	[done]import json resume/references and fill all fields with imported data
+	add help dialog
