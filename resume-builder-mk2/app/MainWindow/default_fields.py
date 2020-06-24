@@ -38,7 +38,8 @@ def AdditionalInfoTypes():
         'activities',
         'awards',
         'hobbies',
-        'object',
+        'objective',
+        'skills',
         'other'
         ]
 
