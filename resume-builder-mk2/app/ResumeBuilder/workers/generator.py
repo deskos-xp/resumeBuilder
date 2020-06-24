@@ -19,6 +19,7 @@ class generator:
         self.handleEmployment()
         self.handleEducation()
         self.handleCertification()
+        self.handleSkills()
         self.handleAdditionalInfo()
         self.handleLinks()
         print(self.path)
@@ -26,7 +27,33 @@ class generator:
         self.doc.build(self.flowables)
 
 
+    def handleSkills(self):
+        lSkill=self.data.get("skills")
+        if len(lSkill) > 0:
+            self.flowables.append(Paragraph("Skills",self.hc2))
+            self.flowables.append(self.hr)
+        for s in lSkill:
+            self.flowables.append(Paragraph(s.get("name"),self.styles.get('Heading3')))
+            if s.get("years_experience") and s.get("months_experience"):
+                
+                line="{years} Year(s) - {months} Month(s)".format(**dict(years=s.get("years_experience"),months=s.get("months_experience")))
+                #self.flowables.append(Paragraph(line,self.styles.get('Italic')))
 
+            elif s.get("years_experience"):
+                line="{years} Year(s)".format(**dict(years=s.get("years_experience")))
+                #self.flowables.append(Paragraph(line,self.styles.get('Italic')))
+
+            elif s.get("months_experience"):
+                line="{months} Month(s)".format(**dict(months=s.get("months_experience")))
+                #self.flowables.append(Paragraph(line,self.styles.get('Italic')))
+
+
+            self.flowables.append(Paragraph(line,self.styles.get('Italic')))
+            for ll in s.get("comment").split("\n"):
+                if ll:
+                    comment="{l}".format(**dict(l=ll))
+                    self.flowables.append(Paragraph(comment,self.ulx,bulletText=" - "))
+    
     def handleEmployment(self):
         lEmployment=self.data.get("employment")
         if len(lEmployment) > 0:
@@ -68,9 +95,6 @@ class generator:
         if len(lEmployment) > 0:
             self.flowables.append(self.hr)
 
-                    
-
-
     def handleEducation(self):
         lEducation = self.data.get("education")
         if len(lEducation) > 0:
@@ -91,6 +115,7 @@ class generator:
 
         if len(lEducation) > 0:
             self.flowables.append(self.hr)
+
     def handleCertification(self):
         lCertification=self.data.get("certification")
         if len(lCertification) > 0:

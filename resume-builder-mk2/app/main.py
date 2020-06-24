@@ -15,7 +15,7 @@ from copy import deepcopy
 from .ReferencesBuilder.ReferencesBuilder import ReferencesBuilder
 from .ResumeBuilder.ResumeBuilder import ResumeBuilder
 from .Importer.Importer import Importer
-
+from .Skills.Skills import Skills
 class Main(QMainWindow):
     def __init__(self):
         super(Main,self).__init__()
@@ -28,6 +28,7 @@ class Main(QMainWindow):
         self.tabs['links']=Links(self)
         self.tabs['additionalInfo']=AdditionalInfo(self)
         self.tabs['references']=References(self)
+        self.tabs['skills']=Skills(self)
 
         self.importer=Importer(self)
 
@@ -44,7 +45,7 @@ class Main(QMainWindow):
     def saveData(self):
         data={}
         for i in self.tabs.keys():
-            if i in ['employment','education','certification','links','additionalInfo','references']:
+            if i in ['employment','education','certification','links','additionalInfo','references','skills']:
                 data[i]=[]
                 for model in self.tabs[i].models:
                     data[i].append(deepcopy(model.item))

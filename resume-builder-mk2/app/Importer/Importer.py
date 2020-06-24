@@ -20,7 +20,7 @@ class Importer:
     def store_data(self,data):
         def pre_clear():
             for k in self.parent.tabs.keys():
-                if k in ['employment','education','certification','links','additionalInfo','references']:
+                if k in ['employment','education','certification','links','additionalInfo','references','skills']:
                     parent=self.parent.tabs.get(k)
                     parent.models.clear()
                     for v in parent.views:
@@ -32,7 +32,7 @@ class Importer:
         def load():
             self.data=data
             for k in data.keys():
-                if k in ['employment','education','certification','links','additionalInfo','references']:
+                if k in ['employment','education','certification','links','additionalInfo','references','skills']:
                     for num,i in enumerate(data.get(k)):
                         parent=self.parent.tabs.get(k)
                         nameUpper=k[0].upper()+k[1:].lower()
@@ -58,7 +58,7 @@ class Importer:
     def importer(self):
         data=dict()
         for i in self.parent.tabs.keys():
-            if i in ['employment','education','certification','links','additionalInfo','references']:
+            if i in ['employment','education','certification','links','additionalInfo','references','skills']:
                 data[i]=[]
                 for model in self.parent.tabs[i].models:
                     data[i].append(deepcopy(model.item))

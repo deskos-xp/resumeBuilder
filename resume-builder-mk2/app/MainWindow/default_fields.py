@@ -21,7 +21,13 @@ def reference():
         state="",
         ZIP=""
     )
-
+def skills():
+    return {
+        "name":"",
+        "months_experience":0,
+        "years_experience":0,
+        "comment":""
+    }
 
 def phoneTypes():
     return ["Cell","Home","Work"]
