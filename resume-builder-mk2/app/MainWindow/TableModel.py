@@ -1,12 +1,18 @@
 from PyQt5.QtCore import QAbstractTableModel,Qt,QModelIndex 
 from PyQt5.QtGui import QColor
+import enum
+class TableModelEnum(enum.Enum):
+    READONLY=False
+    EDITABLE=True
 
 class TableModel(QAbstractTableModel):
-    def __init__(self,*args,item=None,**kwargs):
+    def __init__(self,*args,item=None,ReadOnly=TableModelEnum.EDITABLE,**kwargs):
         super(TableModel,self).__init__()
         self.item = item or {}
         self.row_count=0
         self.column_count=2
+        
+        self.ReadOnly=ReadOnly
 
         self.align=[]
         self.init_align()
@@ -53,7 +59,10 @@ class TableModel(QAbstractTableModel):
     def flags(self,index):
         baseflags=QAbstractTableModel.flags(self,index)
         if index.column() > 0:
-            return baseflags | Qt.ItemIsEditable
+            if self.ReadOnly == TableModelEnum.READONLY:
+                return baseflags
+            else:
+                return baseflags | Qt.ItemIsEditable
         else:
             return baseflags 
 

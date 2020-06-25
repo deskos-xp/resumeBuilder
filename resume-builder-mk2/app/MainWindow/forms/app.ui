@@ -53,7 +53,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -89,7 +89,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_7">
@@ -125,7 +125,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_6">
@@ -161,7 +161,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_22">
@@ -197,7 +197,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_11">
@@ -233,7 +233,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_12">
@@ -269,7 +269,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>438</height>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
@@ -388,7 +388,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>32</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -398,7 +398,14 @@
     <addaction name="action_Exit"/>
     <addaction name="actionImport"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_Exit">
@@ -409,6 +416,11 @@
   <action name="actionImport">
    <property name="text">
     <string>&amp;Import</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>

@@ -89,6 +89,15 @@ def employment():
         state="",
         ZIP="")
 
+def help_():
+    return dict(
+            name="",
+            version="",
+            author="",
+            email="",
+            comment=""
+            )
+
 def contact():
     return dict(
         first_name="",

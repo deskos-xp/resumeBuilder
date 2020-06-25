@@ -2,7 +2,7 @@ from reportlab.platypus import SimpleDocTemplate,Paragraph
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.lib.enums import TA_CENTER,TA_JUSTIFY
 from reportlab.platypus import Spacer,HRFlowable
-
+from .default_fields import contact as kontact
 class genHeader:
     def __init__(self,contact):
         self.contact=contact
@@ -13,6 +13,8 @@ class genHeader:
         
     def generate(self) -> list:
         flowables=list()
+        if self.contact == kontact():
+            return flowables
         flowables.append(
             Paragraph(
                 "{f}{m}{l}".format(
